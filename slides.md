@@ -1441,10 +1441,10 @@ Se a arquitetura ajuda pessoas a tomar decisões melhores, ela também ajuda age
 </div>
 <figure class="qr">
 <img src="assets/qr-feedback.svg" alt="QR code para o formulário de feedback">
-<figcaption>Deixe seu feedback<br><span class="site">luizschons.com/feedback</span></figcaption>
+<figcaption>Deixe seu feedback</figcaption>
 </figure>
 </div>
 
 <!--
-Abrir para perguntas. Deixar este slide na tela durante o Q&A: o QR code leva a luizschons.com/feedback/ para a plateia deixar feedback sobre a palestra.
+Abrir para perguntas. Deixar este slide na tela durante o Q&A: o QR code leva ao formulário de feedback desta palestra (luizschons.com/pt-br/feedback/?t=187690&e=1019926).
 -->
