@@ -275,3 +275,5 @@ figure { margin: 0; }
 .contacts > div { display: grid; grid-template-columns: 195px 1fr; align-items: baseline; }
 .contact-label { font-size: 30px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .contact-value { font-family: 'JetBrains Mono', monospace; font-size: 39px; color: var(--accent); }
+
+.qr figcaption .site { display: block; margin-top: 6px; font-size: 27px; }
