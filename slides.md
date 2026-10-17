@@ -1230,6 +1230,58 @@ Humanos continuam essenciais: confirmar regras, avaliar trade-offs, aprovar cont
 
 ---
 
+## Na prática: a task chega
+
+<div class="chat">
+<div class="msg user"><span class="who">Você</span>Tenho essa task: <a>PAY-1432 · Reembolso parcial</a>. O contexto do domínio está em <a>Pagamentos / Payment Service</a>.</div>
+<div class="msg agent"><span class="who">Agente</span><div class="skills"><span class="skill">planning</span><span class="skill">payments-context</span></div>Li a task e a página do Payment Service, e segui os links até a <a>ADR-012</a> e o contrato de reembolso. Antes de começar:
+<ol><li>Pode haver mais de um reembolso parcial por pedido?</li><li>O estoque é liberado na solicitação ou na confirmação?</li></ol></div>
+<div class="msg user"><span class="who">Você</span>Vários por pedido. Estoque só na confirmação.</div>
+</div>
+
+<!--
+Simulação de uma conversa real com o agente, para amarrar tudo o que vimos.
+- Você não explica o sistema: manda o link da task e o link da página do domínio. Essa página é a porta de entrada; o resto o agente encontra pelos links (Context Architecture).
+- O agente carrega a skill de planning e a Context Skill de pagamentos.
+- Ele segue os links relevantes (ADR-012, contrato de reembolso) em vez de ler tudo.
+- O primeiro trabalho dele é PERGUNTAR. As respostas viram decisões explícitas.
+-->
+
+---
+
+## Na prática: do plano ao PR
+
+<div class="chat">
+<div class="msg agent"><span class="who">Agente</span><div class="skills"><span class="skill">architecture</span><span class="skill">testing</span></div>Plano: reutilizar a transação e rastrear o total reembolsado, como na ADR-012. Testes de concorrência, idempotência e falha após a confirmação do provedor.</div>
+<div class="msg agent"><span class="who">Agente</span><div class="skills"><span class="skill">delivery</span></div>PR aberto: <a>#482 · Reembolso parcial por item</a>. Testes passando, fitness functions ok. Change record pronto para aprovação.</div>
+<div class="msg user"><span class="who">Você</span>Revisei e aprovei. Vou subir em produção. Monitora pra mim?</div>
+</div>
+
+<!--
+- Skills de architecture e testing: o plano se apoia na decisão registrada (ADR-012), não numa ideia nova. Os testes saem dos critérios de sucesso.
+- Skill de delivery: o agente PREPARA o PR e o change record. Os guardrails continuam valendo: fitness functions rodam no pipeline e quem aprova é uma pessoa.
+- Preparar ≠ executar: o deploy acontece pelo pipeline, depois da aprovação humana.
+-->
+
+---
+
+## Na prática: deploy e monitoramento
+
+<div class="chat">
+<div class="msg agent"><span class="who">Agente</span><div class="skills"><span class="skill">observability</span></div>Acompanhando o <a>dashboard de pagamentos</a>. 30 min após o deploy:
+<ul><li>Reembolsos parciais confirmados, sem duplicidade</li><li>Latência p95 estável</li><li>Nenhuma divergência entre provedor e base</li></ul>Aviso se a taxa de falha passar de 2%.</div>
+<div class="msg agent"><span class="who">Agente</span><div class="skills"><span class="skill done">docs atualizadas</span></div>Atualizei a página do Payment Service com o runbook do reembolso parcial.</div>
+</div>
+
+<!--
+- Skill de observability: o agente sabe qual dashboard olhar porque o link está na página do domínio. Compara com o baseline e com os critérios de sucesso definidos antes do código.
+- O limite de alerta (2% de falha) foi definido pelo time; o agente acompanha e avisa, a decisão de continuar ou reverter é humana.
+- Fechando o ciclo: a documentação é atualizada, e a próxima task começa com mais contexto.
+Transição: "E como a gente sabe se o agente está trabalhando bem? Observando o próprio agente."
+-->
+
+---
+
 <!-- _class: divider -->
 
 <div class="kicker">Parte 9</div>
