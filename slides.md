@@ -1230,21 +1230,149 @@ Humanos continuam essenciais: confirmar regras, avaliar trade-offs, aprovar cont
 
 ---
 
-## Na prática: a task chega
+## Na prática: o pedido
 
 <div class="chat">
-<div class="msg user"><span class="who">Você</span>Tenho essa task: <a>PAY-1432 · Reembolso parcial</a>. O contexto do domínio está em <a>Pagamentos / Payment Service</a>.</div>
-<div class="msg agent"><span class="who">Agente</span><div class="skills"><span class="skill">planning</span><span class="skill">payments-context</span></div>Li a task e a página do Payment Service, e segui os links até a <a>ADR-012</a> e o contrato de reembolso. Antes de começar:
+<div class="msg user"><span class="who">Você</span>Pega essa task pra mim: <a>PAY-1432</a></div>
+<div class="msg agent"><span class="who">Agente</span><div class="skills"><span class="skill">planning</span></div>Abrindo a task…</div>
+</div>
+
+<br>
+
+<p class="muted">Só um link. Nenhuma explicação sobre o sistema.</p>
+
+<!--
+Simulação de uma conversa real com o agente, para amarrar tudo o que vimos.
+Repare no input: só o link da task. Você não explica o sistema, não cola documentação, não descreve a arquitetura.
+A pergunta é: como o agente chega no contexto certo a partir disso? A resposta está em como a task e a documentação estão estruturadas.
+-->
+
+---
+
+## Na prática: a task
+
+<div class="ticket">
+<div class="ticket-head"><span class="ticket-key">PAY-1432</span><span class="ticket-type">Story</span></div>
+<div class="ticket-title">Reembolso parcial por item</div>
+<div class="ticket-body">
+<div>
+<div class="ticket-label">Descrição</div>
+<p class="ticket-desc">Como cliente, quero devolver só alguns itens do pedido e receber o valor proporcional.</p>
+<div class="ticket-label">Critérios de aceite</div>
+<ul>
+<li>Reembolso nunca excede o valor pago</li>
+<li>Sem processamento duplicado</li>
+<li>Cliente notificado da confirmação</li>
+</ul>
+</div>
+<div class="ticket-fields">
+<div class="ticket-field"><div class="ticket-label">Épico</div><div class="v">Devoluções</div></div>
+<div class="ticket-field"><div class="ticket-label">Time</div><div class="v">Pagamentos</div></div>
+<div class="ticket-field key"><div class="ticket-label">Domínio</div><div class="v">Pagamentos / Payment Service</div><span class="hint">porta de entrada do contexto</span></div>
+</div>
+</div>
+</div>
+
+<!--
+A task é estruturada: descrição em linguagem de negócio, critérios de aceite claros, épico e time.
+O campo mais importante para o agente é o DOMÍNIO: um link para a página do Payment Service na wiki.
+Esse único campo é a porta de entrada. Sem ele, o agente teria que adivinhar onde procurar.
+Dica prática: tornar esse campo obrigatório no template de task do time.
+-->
+
+---
+
+## Na prática: a página do domínio
+
+<div class="wiki compact">
+<div class="wiki-side">
+<div class="wiki-space">Pagamentos</div>
+<div class="wiki-node open">Payment Service</div>
+<div class="wiki-child">Contexto de negócio</div>
+<div class="wiki-child">Decisões (ADRs)</div>
+<div class="wiki-child">Contratos</div>
+<div class="wiki-child">Runbooks</div>
+<div class="wiki-child">Dashboards</div>
+<div class="wiki-child">Incidentes</div>
+</div>
+<div class="wiki-page">
+<div class="wiki-title">Payment Service</div>
+<div class="wiki-meta">Dono: time de pagamentos · atualizada há 2 semanas</div>
+<div class="wiki-links">
+<div><span>Código</span><a>repositório payment-service</a></div>
+<div><span>Decisão</span><a>ADR-012 · Reembolso parcial</a></div>
+<div><span>Contrato</span><a>API de reembolso v2</a></div>
+<div><span>Runbook</span><a>Falha no provedor</a></div>
+<div><span>Sinais</span><a>Dashboard de pagamentos</a></div>
+<div><span>Incidente</span><a>INC-2291 · Latência no checkout</a></div>
+</div>
+</div>
+</div>
+
+<!--
+O link da task leva para a mesma página que vimos lá na parte 2.
+A página não copia nada: ela APONTA. Código, decisão, contrato, runbook, dashboard e incidente, cada um no sistema onde vive.
+Dono e data de atualização dizem ao agente se pode confiar nessa página.
+-->
+
+---
+
+## Na prática: um link, todo o contexto
+
+<svg class="network" viewBox="0 0 1640 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Da task à página do domínio e dela a todas as fontes de contexto">
+<defs><marker id="arrc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3b5bdb"/></marker></defs>
+<line x1="323" y1="300" x2="525" y2="300" stroke="#3b5bdb" stroke-width="3" marker-end="url(#arrc)"/>
+<line x1="868" y1="300" x2="1245" y2="45" stroke="#3b5bdb" stroke-width="3" marker-end="url(#arrc)"/>
+<line x1="868" y1="300" x2="1245" y2="147" stroke="#3b5bdb" stroke-width="3" marker-end="url(#arrc)"/>
+<line x1="868" y1="300" x2="1245" y2="249" stroke="#3b5bdb" stroke-width="3" marker-end="url(#arrc)"/>
+<line x1="868" y1="300" x2="1245" y2="351" stroke="#3b5bdb" stroke-width="3" marker-end="url(#arrc)"/>
+<line x1="868" y1="300" x2="1245" y2="453" stroke="#3b5bdb" stroke-width="3" marker-end="url(#arrc)"/>
+<line x1="868" y1="300" x2="1245" y2="555" stroke="#3b5bdb" stroke-width="3" marker-end="url(#arrc)"/>
+<rect x="60.0" y="260.0" width="260" height="80" rx="16" fill="#ffffff" stroke="#e4e1da" stroke-width="2"/>
+<text x="190" y="311" text-anchor="middle" font-family="Inter, sans-serif" font-size="30" font-weight="600" fill="#1d1f24">PAY-1432</text>
+<rect x="535.0" y="260.0" width="330" height="80" rx="16" fill="#3b5bdb" stroke="#3b5bdb" stroke-width="2"/>
+<text x="700" y="311" text-anchor="middle" font-family="Inter, sans-serif" font-size="30" font-weight="700" fill="#ffffff">Payment Service</text>
+<rect x="1255.0" y="10.0" width="270" height="70" rx="16" fill="#ffffff" stroke="#e4e1da" stroke-width="2"/>
+<text x="1390" y="56" text-anchor="middle" font-family="Inter, sans-serif" font-size="30" font-weight="600" fill="#1d1f24">Repositório</text>
+<rect x="1255.0" y="112.0" width="270" height="70" rx="16" fill="#ffffff" stroke="#e4e1da" stroke-width="2"/>
+<text x="1390" y="158" text-anchor="middle" font-family="Inter, sans-serif" font-size="30" font-weight="600" fill="#1d1f24">ADR-012</text>
+<rect x="1255.0" y="214.0" width="270" height="70" rx="16" fill="#ffffff" stroke="#e4e1da" stroke-width="2"/>
+<text x="1390" y="260" text-anchor="middle" font-family="Inter, sans-serif" font-size="30" font-weight="600" fill="#1d1f24">Contrato v2</text>
+<rect x="1255.0" y="316.0" width="270" height="70" rx="16" fill="#ffffff" stroke="#e4e1da" stroke-width="2"/>
+<text x="1390" y="362" text-anchor="middle" font-family="Inter, sans-serif" font-size="30" font-weight="600" fill="#1d1f24">Runbook</text>
+<rect x="1255.0" y="418.0" width="270" height="70" rx="16" fill="#ffffff" stroke="#e4e1da" stroke-width="2"/>
+<text x="1390" y="464" text-anchor="middle" font-family="Inter, sans-serif" font-size="30" font-weight="600" fill="#1d1f24">Dashboard</text>
+<rect x="1255.0" y="520.0" width="270" height="70" rx="16" fill="#ffffff" stroke="#e4e1da" stroke-width="2"/>
+<text x="1390" y="566" text-anchor="middle" font-family="Inter, sans-serif" font-size="30" font-weight="600" fill="#1d1f24">INC-2291</text>
+<text x="190" y="384" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" font-weight="700" letter-spacing="2" fill="#7a7d86">INPUT</text>
+<text x="700" y="384" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" font-weight="700" letter-spacing="2" fill="#7a7d86">PORTA DE ENTRADA</text>
+</svg>
+
+<p class="muted">O input foi um link. O contexto veio da <b>arquitetura</b>.</p>
+
+<!--
+Esse é o ponto da palestra inteira, num slide:
+- Você mandou um link (a task).
+- A task apontou para a página do domínio.
+- A página apontou para tudo o que o agente precisa: código, decisão, contrato, runbook, dashboard, incidentes.
+O agente não precisou de um prompt gigante nem de alguém explicando o sistema. Ele navegou pela Context Architecture.
+E ele não lê tudo: segue só os links relevantes para a tarefa (aqui, ADR-012 e o contrato).
+-->
+
+---
+
+## Na prática: o agente pergunta
+
+<div class="chat">
+<div class="msg agent"><span class="who">Agente</span><div class="skills"><span class="skill">planning</span><span class="skill">payments-context</span></div>Li a task e a página do Payment Service, e segui os links até a <a>ADR-012</a> e o <a>contrato de reembolso v2</a>. Antes de começar:
 <ol><li>Pode haver mais de um reembolso parcial por pedido?</li><li>O estoque é liberado na solicitação ou na confirmação?</li></ol></div>
 <div class="msg user"><span class="who">Você</span>Vários por pedido. Estoque só na confirmação.</div>
 </div>
 
 <!--
-Simulação de uma conversa real com o agente, para amarrar tudo o que vimos.
-- Você não explica o sistema: manda o link da task e o link da página do domínio. Essa página é a porta de entrada; o resto o agente encontra pelos links (Context Architecture).
-- O agente carrega a skill de planning e a Context Skill de pagamentos.
-- Ele segue os links relevantes (ADR-012, contrato de reembolso) em vez de ler tudo.
-- O primeiro trabalho dele é PERGUNTAR. As respostas viram decisões explícitas.
+O agente carrega a skill de planning e a Context Skill de pagamentos.
+Ele mostra de onde tirou o contexto (rastreabilidade) e faz o primeiro trabalho dele: PERGUNTAR.
+As duas perguntas não estão respondidas na task nem na ADR. As respostas viram decisões explícitas, que depois voltam para a documentação.
 -->
 
 ---

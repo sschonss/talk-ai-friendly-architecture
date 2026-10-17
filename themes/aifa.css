@@ -318,3 +318,27 @@ figure { margin: 0; }
   background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 4px 16px;
 }
 .skill.done { background: var(--green-soft); color: var(--green); }
+
+/* mock de task */
+.ticket {
+  background: var(--surface); border: 1.5px solid var(--border); border-radius: 27px;
+  padding: 40px 52px; box-shadow: 0 3px 12px rgba(0,0,0,.05);
+}
+.ticket-head { display: flex; align-items: center; gap: 18px; margin-bottom: 10px; }
+.ticket-key { font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 600; color: var(--accent); }
+.ticket-type { font-size: 20px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: var(--green-soft); color: var(--green); border-radius: 999px; padding: 4px 16px; }
+.ticket-title { font-size: 48px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 30px; }
+.ticket-body { display: grid; grid-template-columns: 1fr 520px; gap: 54px; }
+.ticket-label { font-size: 20px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.ticket-desc { font-size: 29px; margin: 0 0 26px; }
+.ticket ul { font-size: 28px; margin: 0; }
+.ticket li { margin: 4px 0; }
+.ticket-fields { display: flex; flex-direction: column; gap: 14px; }
+.ticket-field { padding: 14px 20px; border-radius: 16px; background: var(--bg); }
+.ticket-field .v { font-size: 28px; font-weight: 600; }
+.ticket-field.key { background: var(--accent-soft); outline: 3px solid var(--accent); }
+.ticket-field.key .v { color: var(--accent); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }
+.ticket-field.key .hint { display: block; font-size: 20px; font-weight: 700; color: var(--accent); margin-top: 6px; }
+.wiki.compact .wiki-links > div { padding: 13px 0; font-size: 30px; }
+.wiki.compact .wiki-page { padding: 36px 54px; }
+.wiki.compact .wiki-meta { margin-bottom: 24px; }
