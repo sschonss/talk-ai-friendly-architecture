@@ -1440,11 +1440,11 @@ Se a arquitetura ajuda pessoas a tomar decisões melhores, ela também ajuda age
 
 </div>
 <figure class="qr">
-<img src="assets/qr-slides.svg" alt="QR code dos slides">
-<figcaption>Slides desta palestra</figcaption>
+<img src="assets/qr-site.svg" alt="QR code do site luizschons.com">
+<figcaption>luizschons.com</figcaption>
 </figure>
 </div>
 
 <!--
-Abrir para perguntas. Deixar este slide na tela durante o Q&A: o QR code leva aos slides publicados (sschonss.github.io/talk-ai-friendly-architecture), e de lá para a série completa.
+Abrir para perguntas. Deixar este slide na tela durante o Q&A: o QR code leva ao site luizschons.com, onde estão a série completa e os outros artigos.
 -->
