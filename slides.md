@@ -1253,14 +1253,14 @@ Simulação de uma conversa real com o agente, para amarrar tudo o que vimos.
 
 <div class="chat">
 <div class="msg agent"><span class="who">Agente</span><div class="skills"><span class="skill">architecture</span><span class="skill">testing</span></div>Plano: reutilizar a transação e rastrear o total reembolsado, como na ADR-012. Testes de concorrência, idempotência e falha após a confirmação do provedor.</div>
-<div class="msg agent"><span class="who">Agente</span><div class="skills"><span class="skill">delivery</span></div>PR aberto: <a>#482 · Reembolso parcial por item</a>. Testes passando, fitness functions ok. Change record pronto para aprovação.</div>
-<div class="msg user"><span class="who">Você</span>Revisei e aprovei. Vou subir em produção. Monitora pra mim?</div>
+<div class="msg agent"><span class="who">Agente</span><div class="skills"><span class="skill">delivery</span></div>PR aberto: <a>#482 · Reembolso parcial por item</a>. Testes passando, fitness functions ok. Rascunho da GMUD pronto.</div>
+<div class="msg user"><span class="who">Você</span>Mandei o PR para o time aprovar e estou providenciando a GMUD. Quando estiver tudo aprovado, eu subo e te aviso aqui.</div>
 </div>
 
 <!--
 - Skills de architecture e testing: o plano se apoia na decisão registrada (ADR-012), não numa ideia nova. Os testes saem dos critérios de sucesso.
 - Skill de delivery: o agente PREPARA o PR e o change record. Os guardrails continuam valendo: fitness functions rodam no pipeline e quem aprova é uma pessoa.
-- Preparar ≠ executar: o deploy acontece pelo pipeline, depois da aprovação humana.
+- Preparar ≠ executar: o time revisa o PR e a GMUD (gestão de mudança) passa pela aprovação. Só depois disso a pessoa sobe em produção pelo pipeline.
 -->
 
 ---
@@ -1268,6 +1268,7 @@ Simulação de uma conversa real com o agente, para amarrar tudo o que vimos.
 ## Na prática: deploy e monitoramento
 
 <div class="chat">
+<div class="msg user"><span class="who">Você</span>GMUD aprovada, subi em produção. Monitora pra mim?</div>
 <div class="msg agent"><span class="who">Agente</span><div class="skills"><span class="skill">observability</span></div>Acompanhando o <a>dashboard de pagamentos</a>. 30 min após o deploy:
 <ul><li>Reembolsos parciais confirmados, sem duplicidade</li><li>Latência p95 estável</li><li>Nenhuma divergência entre provedor e base</li></ul>Aviso se a taxa de falha passar de 2%.</div>
 <div class="msg agent"><span class="who">Agente</span><div class="skills"><span class="skill done">docs atualizadas</span></div>Atualizei a página do Payment Service com o runbook do reembolso parcial.</div>
