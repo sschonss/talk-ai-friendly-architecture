@@ -254,3 +254,18 @@ figure { margin: 0; }
 .qr-card figcaption b { margin-bottom: 6px; }
 .qr-card figcaption b { font-size: 28px; color: var(--fg); }
 .qr-card figcaption span { font-family: 'JetBrains Mono', monospace; font-size: 18px; color: var(--accent); white-space: nowrap; }
+
+/* comparação: entrada → contexto → decisão */
+.compare { display: flex; flex-direction: column; gap: 24px; margin-bottom: 28px; }
+.compare-row { display: grid; grid-template-columns: 1fr 48px 1fr 48px 1fr; align-items: stretch; }
+.compare-arrow { align-self: center; text-align: center; color: var(--accent); font-size: 32px; }
+.compare-in, .compare-ctx, .compare-out {
+  border-radius: 16px; padding: 22px 20px; min-height: 120px; box-sizing: border-box;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  font-size: 28px; font-weight: 700;
+}
+.compare-in { background: var(--surface); border: 1px solid var(--border); gap: 6px; font-size: 24px; font-weight: 600; }
+.compare-ctx.bad { background: var(--red-soft); color: var(--red); }
+.compare-ctx.good { background: var(--green-soft); color: var(--green); }
+.compare-out.bad { background: var(--red); color: #fff; }
+.compare-out.good { background: var(--green); color: #fff; }

@@ -121,11 +121,30 @@ Nove partes, uma por artigo da série. Começamos com o problema e terminamos me
 
 ---
 
-<!-- _class: statement -->
+## O problema nem sempre é o modelo
 
-> O problema nem sempre é o **modelo**. Muitas vezes é o **sistema**.
+<div class="compare">
+<div class="compare-row">
+<div class="compare-in"><span>Troca o modelo</span><span>Troca o prompt</span></div>
+<span class="compare-arrow">→</span>
+<div class="compare-ctx bad">Contexto ruim</div>
+<span class="compare-arrow">→</span>
+<div class="compare-out bad">Decisão fraca</div>
+</div>
+<div class="compare-row">
+<div class="compare-in"><span>Mesmo modelo</span><span>Mesmo prompt</span></div>
+<span class="compare-arrow">→</span>
+<div class="compare-ctx good">Contexto bom</div>
+<span class="compare-arrow">→</span>
+<div class="compare-out good">Decisão assertiva</div>
+</div>
+</div>
+
+<p class="muted">Muitas vezes, o problema é o <b>sistema</b>.</p>
 
 <!--
+Leitura do desenho: na linha de cima, trocamos o modelo e reescrevemos o prompt, mas o contexto continua ruim, e a decisão continua fraca. Na de baixo, mantemos o mesmo modelo e o mesmo prompt, só melhoramos o contexto, e a decisão fica assertiva. O gargalo está no sistema de contexto, não no modelo.
+
 Como chegamos aqui:
 1. Aprendemos a escalar sistemas.
 2. Aprendemos a modularizar código.
