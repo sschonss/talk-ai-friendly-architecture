@@ -1422,14 +1422,29 @@ Se a arquitetura ajuda pessoas a tomar decisões melhores, ela também ajuda age
 
 ---
 
-<!-- _class: cover -->
 <!-- _paginate: false -->
 <!-- _footer: '' -->
 
-# Obrigado!
+<div class="qr-slide">
+<div>
 
-luizschons.com/series/ai-friendly-architecture
+<p class="kicker-dark">Obrigado!</p>
 
-<br>
+# Perguntas?
 
-**Luiz Schons**
+<div class="contacts">
+<div><span class="contact-label">Site</span><span class="contact-value">luizschons.com</span></div>
+<div><span class="contact-label">LinkedIn</span><span class="contact-value">linkedin.com/in/luiz-schons</span></div>
+<div><span class="contact-label">GitHub</span><span class="contact-value">github.com/sschonss</span></div>
+</div>
+
+</div>
+<figure class="qr">
+<img src="assets/qr-slides.svg" alt="QR code dos slides">
+<figcaption>Slides desta palestra</figcaption>
+</figure>
+</div>
+
+<!--
+Abrir para perguntas. Deixar este slide na tela durante o Q&A: o QR code leva aos slides publicados (sschonss.github.io/talk-ai-friendly-architecture), e de lá para a série completa.
+-->

@@ -269,3 +269,9 @@ figure { margin: 0; }
 .compare-ctx.good { background: var(--green-soft); color: var(--green); }
 .compare-out.bad { background: var(--red); color: #fff; }
 .compare-out.good { background: var(--green); color: #fff; }
+
+/* contatos */
+.contacts { display: flex; flex-direction: column; gap: 14px; margin-top: 36px; }
+.contacts > div { display: grid; grid-template-columns: 130px 1fr; align-items: baseline; }
+.contact-label { font-size: 20px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.contact-value { font-family: 'JetBrains Mono', monospace; font-size: 26px; color: var(--accent); }
