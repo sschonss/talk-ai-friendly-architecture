@@ -1440,7 +1440,7 @@ Se a arquitetura ajuda pessoas a tomar decisões melhores, ela também ajuda age
 
 </div>
 <figure class="qr">
-<img src="assets/qr-feedback.svg" alt="QR code para o formulário de feedback">
+<img src="assets/qr-feedback-phpconf2026.svg" alt="QR code para o formulário de feedback">
 <figcaption>Deixe seu feedback</figcaption>
 </figure>
 </div>
