@@ -373,21 +373,39 @@ No diagrama: a tarefa leva ao domínio, e o domínio é a porta de entrada para 
 
 ---
 
-## Exemplo: pagamentos
+## Exemplo: a página do Payment Service
 
-```text
-payments-service/
-├── README.md     → responsabilidade + Architecture Hub
-├── context.md    → conceitos e fronteiras
-└── links.md      → onde vive cada coisa
-```
+<div class="wiki">
+<div class="wiki-side">
+<div class="wiki-space">Pagamentos</div>
+<div class="wiki-node open">Payment Service</div>
+<div class="wiki-child">Contexto de negócio</div>
+<div class="wiki-child">Decisões (ADRs)</div>
+<div class="wiki-child">Contratos</div>
+<div class="wiki-child">Runbooks</div>
+<div class="wiki-child">Dashboards</div>
+<div class="wiki-child">Incidentes</div>
+</div>
+<div class="wiki-page">
+<div class="wiki-title">Payment Service</div>
+<div class="wiki-meta">Dono: time de pagamentos · atualizada há 2 semanas</div>
+<div class="wiki-links">
+<div><span>Código</span><a>repositório payment-service</a></div>
+<div><span>Decisão</span><a>ADR-012 · Reembolso parcial</a></div>
+<div><span>Runbook</span><a>Falha no provedor</a></div>
+<div><span>Sinais</span><a>Dashboard de pagamentos</a></div>
+<div><span>Incidente</span><a>INC-2291 · Latência no checkout</a></div>
+</div>
+</div>
+</div>
 
 <!--
-- README.md: explica a responsabilidade do serviço e linka o Architecture Hub.
-- context.md: conceitos de negócio e fronteiras do domínio.
-- links.md: índice confiável. APONTA, não copia.
-Fora do repo: ADRs na ferramenta de arquitetura, runbooks na plataforma de docs, dashboards na ferramenta de observabilidade.
-O agente não lê tudo: começa pelo mapa do domínio e segue só os links relevantes para a tarefa.
+Exemplo numa wiki (Confluence, Notion, o que o time usar): o espaço "Pagamentos" tem uma página para o Payment Service, um microsserviço desse contexto.
+- A página explica a responsabilidade do serviço e mostra quem é o DONO e QUANDO foi atualizada.
+- As páginas filhas organizam o contexto: negócio, decisões (ADRs), contratos (APIs e eventos), runbooks, dashboards, incidentes.
+- A seção de links APONTA para onde cada coisa vive, sem copiar: o código no repositório, a ADR, o runbook, o dashboard na ferramenta de observabilidade, o incidente.
+A ferramenta não importa: pode ser wiki, repositório ou portal. O que importa é ter um ponto de entrada por domínio com links confiáveis.
+O agente não lê tudo: começa pela página do serviço e segue só os links relevantes para a tarefa.
 -->
 
 ---
