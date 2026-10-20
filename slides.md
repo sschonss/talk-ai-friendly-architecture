@@ -83,14 +83,14 @@ Transição: "Vou dividir a conversa em três atos."
 ## O caminho
 
 <div class="cols3">
-<div class="card"><p class="muted small">Ato 1</p><h3>O problema</h3><p class="small">O contexto não está no código</p></div>
-<div class="card"><p class="muted small">Ato 2</p><h3>Conhecimento e limites</h3><p class="small">Skills, guardrails e fitness functions</p></div>
-<div class="card"><p class="muted small">Ato 3</p><h3>Na prática</h3><p class="small">Do épico à produção, e como medir</p></div>
+<div class="card"><p class="muted small">Ato 1</p><h3>O problema</h3></div>
+<div class="card"><p class="muted small">Ato 2</p><h3>Conhecimento e limites</h3></div>
+<div class="card"><p class="muted small">Ato 3</p><h3>Na prática</h3></div>
 </div>
 
 <br>
 
-<p class="muted">Um exemplo do começo ao fim: <b>reembolso parcial</b>.</p>
+<p class="muted">Um exemplo só: <b>reembolso parcial</b>.</p>
 
 <!--
 Três atos, construídos a partir da série de 9 artigos.
@@ -431,7 +431,7 @@ Contexto segue o fluxo: tarefa → domínios → decisões → docs junto do có
 
 ---
 
-<p class="kicker-dark">Observabilidade também é contexto</p>
+<p class="kicker-dark">Observabilidade</p>
 
 ## Intenção vs. realidade
 
@@ -559,7 +559,7 @@ Segundo ato: se o contexto está espalhado, como organizá-lo para o agente (ski
 
 ---
 
-<p class="kicker-dark">Antes, o vocabulário</p>
+<p class="kicker-dark">Vocabulário</p>
 
 ## Quatro peças
 
@@ -616,8 +616,6 @@ O que deve durar: ferramentas e protocolos mudam; a separação de responsabilid
 -->
 
 ---
-
-<p class="kicker-dark">Skills por contexto</p>
 
 ## O monolito de contexto
 
@@ -808,7 +806,7 @@ Transição: "A skill guia. Mas guiar não é garantir."
 
 <!-- _class: statement -->
 
-<p class="kicker-dark">Guardrails e fitness functions</p>
+<p class="kicker-dark">Guardrails</p>
 
 > Prompt **orienta**. Não **protege**.
 
@@ -1344,24 +1342,18 @@ Transição: "A feature funcionou. Mas e o agente, trabalhou bem?"
 
 <div class="chat">
 <div class="msg user"><span class="who">Você</span>E essa sessão, como foi?</div>
-<div class="msg agent"><span class="who">Agente</span><div class="skills"><span class="skill">agent-observability</span></div>Pelo <a>dashboard de sessões</a> (OpenTelemetry):
-<ul><li>Contexto encontrado a partir de 1 link, em 4 tool calls</li><li>2 perguntas viraram decisões registradas</li><li>2 aprovações humanas: PR e GMUD</li><li>0 violações de fitness function, 0 retrabalho</li></ul></div>
+<div class="msg agent"><span class="who">Agente</span><div class="skills"><span class="skill">agent-observability</span></div>4 tool calls · 2 aprovações · 0 retrabalho</div>
 </div>
 
-<br>
-
-<p class="muted">A feature foi medida. O <b>agente</b> também precisa ser.</p>
-
 <!--
-Fechando a simulação: a mesma pergunta que fizemos para a feature, agora para o agente.
+Fechando a simulação: a mesma pergunta que fizemos para a feature, agora para o agente. A feature foi medida; o agente também precisa ser.
+Leitura do dashboard de sessões (OpenTelemetry): contexto encontrado a partir de 1 link, em 4 tool calls; 2 perguntas viraram decisões registradas; 2 aprovações humanas (PR e GMUD); 0 violações de fitness function; 0 retrabalho.
 Os números são ilustrativos. O ponto é o TIPO de sinal: quanto custou achar o contexto, quantas decisões saíram das perguntas, onde houve aprovação humana, se os guardrails pegaram algo, se houve retrabalho.
 Repare que os sinais refletem a arquitetura: achou o contexto rápido porque a task apontava para o domínio; zero violação porque a fronteira estava clara.
 Transição: "Como eu sei que isso funcionou de verdade, e não só pareceu funcionar?"
 -->
 
 ---
-
-<p class="kicker-dark">Observando o próprio agente</p>
 
 ## Como sei que funcionou?
 
