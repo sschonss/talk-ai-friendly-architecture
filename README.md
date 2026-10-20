@@ -6,7 +6,7 @@
 Deck em [Marp](https://marp.app) baseado na série
 [AI-Friendly Architecture](https://luizschons.com/series/ai-friendly-architecture/).
 
-- `slides.md` — o deck (73 slides). Cada slide tem pouco texto; o roteiro detalhado está nas **notas do apresentador** (`<!-- ... -->`).
+- `slides.md` — o deck (62 slides, em 3 atos). Cada slide tem pouco texto; o roteiro detalhado está nas **notas do apresentador** (`<!-- ... -->`).
 - `themes/aifa.css` — tema claro customizado.
 - `assets/` — foto e QR codes.
 

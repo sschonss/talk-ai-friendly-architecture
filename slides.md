@@ -23,6 +23,32 @@ Preparando sistemas reais para agentes de IA
 
 <!--
 Apresentação baseada na série de 9 artigos em luizschons.com/series/ai-friendly-architecture.
+Transição: começar direto pela pergunta. A apresentação pessoal vem logo depois do gancho.
+-->
+
+---
+
+<!-- _class: statement -->
+
+> Seu software está pronto para ser **entendido por uma IA**?
+
+<!--
+Abrir com a pergunta. Deixar a plateia pensar alguns segundos.
+-->
+
+---
+
+<!-- _class: statement -->
+
+> A IA é a **pessoa nova** do time.
+
+<!--
+A analogia que guia a palestra inteira.
+- Ela não conhece o domínio, os serviços, as decisões passadas nem onde ficam as respostas.
+- Com conhecimento bem documentado, encontra respostas sozinha e ganha autonomia.
+- Quando depende de uma pessoa específica, de contexto informal ou da memória de alguém, trabalha pior.
+Guardar essa frase: vamos voltar a ela no fim.
+Transição: "Antes de seguir, deixa eu me apresentar." 
 -->
 
 ---
@@ -47,77 +73,44 @@ Apresentação baseada na série de 9 artigos em luizschons.com/series/ai-friend
 <img class="photo" src="assets/luiz.jpg" alt="Luiz Schons">
 </div>
 
----
-
-<div class="qr-slide">
-<div>
-
-<p class="kicker-dark">Esta palestra é baseada na minha série de artigos</p>
-
-# AI-Friendly Architecture
-
-<p class="muted">9 artigos</p>
-
-<p class="site">luizschons.com/series/ai-friendly-architecture</p>
-
-</div>
-<figure class="qr">
-<img src="assets/qr-serie.svg" alt="QR code da série">
-<figcaption>Escaneie para ler a série</figcaption>
-</figure>
-</div>
-
----
-
-<!-- _class: statement -->
-
-> Seu software está pronto para ser **entendido por uma IA**?
-
 <!--
-Abrir com a pergunta. Deixar a plateia pensar alguns segundos.
--->
-
----
-
-<!-- _class: statement -->
-
-> A IA é a **pessoa nova** do time.
-
-<!--
-A analogia que guia a palestra inteira.
-- Ela não conhece o domínio, os serviços, as decisões passadas nem onde ficam as respostas.
-- Com conhecimento bem documentado, encontra respostas sozinha e ganha autonomia.
-- Quando depende de uma pessoa específica, de contexto informal ou da memória de alguém, trabalha pior.
-- O que ajuda a pessoa nova também ajuda o agente, e vice-versa.
+Apresentação rápida (30 segundos): quem sou, onde trabalho, de onde venho.
+Transição: "Vou dividir a conversa em três atos." 
 -->
 
 ---
 
 ## O caminho
 
-<div class="chips accent">
-<span>1 · Pronto para IA?</span>
-<span>2 · Código ≠ contexto</span>
-<span>3 · Observabilidade</span>
-<span>4 · Skills</span>
-<span>5 · Guardrails</span>
-<span>6 · Context Skills</span>
-<span>7 · Agentes, tools e MCP</span>
-<span>8 · Do épico à produção</span>
-<span>9 · Observando agentes</span>
+<div class="cols3">
+<div class="card"><p class="muted small">Ato 1</p><h3>O problema</h3><p class="small">O contexto não está no código</p></div>
+<div class="card"><p class="muted small">Ato 2</p><h3>Conhecimento e limites</h3><p class="small">Skills, guardrails e fitness functions</p></div>
+<div class="card"><p class="muted small">Ato 3</p><h3>Na prática</h3><p class="small">Do épico à produção, e como medir</p></div>
 </div>
 
+<br>
+
+<p class="muted">Um exemplo do começo ao fim: <b>reembolso parcial</b>.</p>
+
 <!--
-Nove partes, uma por artigo da série. Começamos com o problema e terminamos medindo o próprio agente.
+Três atos, construídos a partir da série de 9 artigos.
+- Ato 1: o problema. O contexto que o agente precisa não está no código: está em docs, decisões e observabilidade.
+- Ato 2: como organizar esse conhecimento (skills por contexto) e como colocar limites que não dependem do prompt (guardrails e fitness functions).
+- Ato 3: tudo junto, numa task real, do épico até produção, e como saber se o agente trabalhou bem.
+Um único exemplo atravessa a palestra: o domínio de pagamentos, o Payment Service e uma feature de reembolso parcial.
 -->
 
 ---
 
 <!-- _class: divider -->
 
-<div class="kicker">Parte 1</div>
+<div class="kicker">Ato 1 · O problema</div>
 
-# Seu software está pronto?
+# O contexto não está no código
+
+<!--
+Primeiro ato: por que agentes erram em sistemas reais, e por que o problema raramente é só o modelo.
+-->
 
 ---
 
@@ -234,7 +227,7 @@ Ter a informação não basta: ela precisa ser encontrável e combinável.
 
 ---
 
-## Incidente: latência na API
+## Incidente: latência no checkout
 
 <div class="cols">
 <div class="card bad">
@@ -248,42 +241,24 @@ Ter a informação não basta: ela precisa ser encontrável e combinável.
 <div class="card good">
 
 ### Com contexto
-- Serviço → docs
-- Sinais → decisões
+- Payment Service → docs
+- Sinais → ADRs
 - Hipóteses focadas
 
 </div>
 </div>
 
 <!--
-SEM arquitetura AI-friendly, o agente depende de sorte: procura logs no lugar errado, lê dashboards sem saber quais métricas importam, perde tempo e sugere hipóteses genéricas.
+Apresentar o domínio que vai nos acompanhar até o fim: pagamentos. Cenário: a latência do checkout começa a subir (vamos chamar de INC-2291).
+SEM arquitetura AI-friendly, o agente depende de sorte: procura logs no serviço errado, lê dashboards sem saber quais métricas importam, perde tempo e sugere hipóteses genéricas ("aumente os recursos").
 COM contexto organizado:
-1. Identifica o serviço afetado
-2. Consulta a doc do domínio
-3. Correlaciona sinais de observabilidade
-4. Encontra decisões de arquitetura relacionadas
+1. Identifica o serviço afetado (Payment Service)
+2. Consulta a doc do domínio de pagamentos
+3. Correlaciona sinais de observabilidade (latência do provedor, timeouts, deploys)
+4. Encontra decisões de arquitetura relacionadas (ADRs)
 5. Foca nas hipóteses mais prováveis
 Não é mágica: o sistema foi preparado para a IA trabalhar com menos atrito.
 Onde começar: incidentes, onboarding e mudanças em áreas críticas.
--->
-
----
-
-<!-- _class: divider -->
-
-<div class="kicker">Parte 2</div>
-
-# Código não é contexto
-
----
-
-<!-- _class: statement -->
-
-> Ter informação **não é** ter contexto.
-
-<!--
-Para entender um sistema, a pessoa nova precisa de: código, documentação, decisões de arquitetura, tickets e épicos, incidentes anteriores, dashboards e métricas, conversas com o time.
-Na maioria das empresas a informação EXISTE, mas está DESCONECTADA: código num repo, decisões numa wiki, tickets em outro sistema, incidentes na plataforma de operação, e o contexto-chave na cabeça de poucas pessoas.
 -->
 
 ---
@@ -307,7 +282,14 @@ Na maioria das empresas a informação EXISTE, mas está DESCONECTADA: código n
 </div>
 </div>
 
+<br>
+
+<p class="muted">Ter informação <b>não é</b> ter contexto.</p>
+
 <!--
+Para entender um sistema, a pessoa nova precisa de: código, documentação, decisões de arquitetura, tickets e épicos, incidentes anteriores, dashboards e métricas, conversas com o time.
+Na maioria das empresas a informação EXISTE, mas está DESCONECTADA: código num repo, decisões numa wiki, tickets em outro sistema, incidentes na plataforma de operação, e o contexto-chave na cabeça de poucas pessoas.
+
 Definição: uma forma de organizar e CONECTAR as fontes de conhecimento que explicam um sistema.
 Perguntas que ela deve responder:
 - Pelo que esse serviço é responsável?
@@ -406,6 +388,7 @@ Exemplo numa wiki (Confluence, Notion, o que o time usar): o espaço "Pagamentos
 - A seção de links APONTA para onde cada coisa vive, sem copiar: o código no repositório, a ADR, o runbook, o dashboard na ferramenta de observabilidade, o incidente.
 A ferramenta não importa: pode ser wiki, repositório ou portal. O que importa é ter um ponto de entrada por domínio com links confiáveis.
 O agente não lê tudo: começa pela página do serviço e segue só os links relevantes para a tarefa.
+Este é o domínio do exemplo da palestra: o INC-2291 é a latência no checkout que acabamos de ver, e a ADR-012 (reembolso parcial) vai voltar no Ato 3.
 -->
 
 ---
@@ -448,13 +431,7 @@ Contexto segue o fluxo: tarefa → domínios → decisões → docs junto do có
 
 ---
 
-<!-- _class: divider -->
-
-<div class="kicker">Parte 3</div>
-
-# Observabilidade também é contexto
-
----
+<p class="kicker-dark">Observabilidade também é contexto</p>
 
 ## Intenção vs. realidade
 
@@ -465,6 +442,7 @@ Contexto segue o fluxo: tarefa → domínios → decisões → docs junto do có
 
 
 <!--
+Sub-seção do Ato 1: além de docs e decisões, a produção também é contexto.
 Produção revela: config alterada, dependência mais lenta, volume inesperado, regra que falha só com certas combinações de dados.
 Monitoramento pergunta "algo está errado?". Observabilidade pergunta "por que o sistema está se comportando assim?".
 Cada sinal conta uma parte:
@@ -484,20 +462,20 @@ Onde vive: o repositório guarda instrumentação, nomes de sinais e LINKS para 
 <div class="cols3">
 <div class="card big">Quando?</div>
 <div class="card big">Onde?</div>
-<div class="card big">Quem foi afetado?</div>
+<div class="card big">Quais pagamentos?</div>
 <div class="card big">O que mudou?</div>
-<div class="card big">Qual dependência?</div>
+<div class="card big">Qual provedor?</div>
 <div class="card big">Qual impacto?</div>
 </div>
 
 <!--
-Cenário: a latência da API começa a subir. Quem tem experiência sabe onde olhar. Quem é novo, ou um agente, não.
+Voltando ao INC-2291: a latência do checkout começa a subir. Quem tem experiência sabe onde olhar. Quem é novo, ou um agente, não.
 1. Quando o problema começou?
-2. Qual serviço deu o primeiro sinal?
-3. Afetou todos os usuários ou um fluxo?
+2. Qual serviço deu o primeiro sinal: o checkout ou o Payment Service?
+3. Afetou todos os pagamentos ou um meio de pagamento específico (cartão, Pix)?
 4. Houve deploy ou mudança de config perto?
-5. Qual dependência ficou mais lenta?
-6. Afetou alguma métrica de negócio?
+5. O provedor de pagamento ficou mais lento?
+6. Afetou alguma métrica de negócio (pagamentos aprovados, conversão do checkout)?
 Nenhum dashboard sozinho responde tudo.
 -->
 
@@ -507,6 +485,7 @@ Nenhum dashboard sozinho responde tudo.
 
 ```json
 {
+  "service": "payment-service",
   "event": "payment_processing_failed",
   "order_id": "ord_8412",
   "error_code": "timeout",
@@ -517,6 +496,7 @@ Nenhum dashboard sozinho responde tudo.
 
 <!--
 "Error processing payment" só ajuda quem já conhece o código.
+- service diz quem emitiu (Payment Service)
 - request_id liga eventos entre serviços
 - order_id mostra impacto numa transação
 - error_code permite agrupar falhas
@@ -546,7 +526,7 @@ Depois do deploy: quais métricas observar, qual comportamento é esperado, como
 ## Comece por um fluxo
 
 <ol class="steps">
-<li>Um fluxo crítico</li>
+<li>Um fluxo crítico: <b>checkout</b></li>
 <li>Correlation ID</li>
 <li>Logs, métricas e traces</li>
 <li>O que é <b>normal</b>?</li>
@@ -554,7 +534,7 @@ Depois do deploy: quais métricas observar, qual comportamento é esperado, como
 
 <!--
 Não precisa instrumentar tudo:
-1. Escolha um fluxo importante para o negócio
+1. Escolha um fluxo importante para o negócio (no exemplo: checkout e pagamento)
 2. Garanta um correlation ID
 3. Estruture os logs principais
 4. Crie métricas com nomes e significados claros
@@ -562,26 +542,105 @@ Não precisa instrumentar tudo:
 6. Conecte deploys, incidentes e mudanças de config
 7. Documente o que é normal e o que é anomalia
 Objetivo: não dashboards bonitos, mas um sistema que conta a própria história.
+Transição para o Ato 2: "O contexto existe, mas está espalhado. Como organizar isso para o agente, e como impor limites?"
 -->
 
 ---
 
 <!-- _class: divider -->
 
-<div class="kicker">Parte 4</div>
+<div class="kicker">Ato 2 · Conhecimento e limites</div>
 
-# Skills
+# Organizar o conhecimento. Definir limites.
+
+<!--
+Segundo ato: se o contexto está espalhado, como organizá-lo para o agente (skills por contexto) e como garantir limites que não dependem do prompt (guardrails e fitness functions).
+-->
 
 ---
 
-<!-- _class: statement -->
+<p class="kicker-dark">Antes, o vocabulário</p>
 
-> Mais contexto **não é** melhor contexto.
+## Quatro peças
+
+<div class="cols4">
+<div class="card accent big">Agente<br><span class="small muted">coordena</span></div>
+<div class="card big">Skill<br><span class="small muted">guia</span></div>
+<div class="card big">Tool<br><span class="small muted">executa</span></div>
+<div class="card big">MCP<br><span class="small muted">conecta</span></div>
+</div>
+
+<!--
+Antes de falar de skills, alinhar o vocabulário. Vamos usar estas quatro palavras até o fim.
+- Agente: coordena um objetivo num loop de contexto, decisão, uso de tools e verificação.
+- Skill: conhecimento e workflow para uma tarefa (ex.: .opencode/skills/incident-investigation/SKILL.md). Não concede permissões.
+- Tool: uma capacidade executável com descrição, schema de input e resultado (ex.: query_metrics com service, metric, from, to).
+- MCP: protocolo que padroniza como clientes descobrem e usam tools, resources e prompts de servidores.
+
+Tool vs. skill:
+Skill: como pensar o problema, quando checar cada fonte, como interpretar, quais limites respeitar.
+Tool: qual ação pode rodar, quais inputs precisa, qual resultado retorna.
+Uma skill de observabilidade usa várias tools (logs, métricas, traces, deploys) e explica como combiná-las. Tools podem ser compartilhadas entre skills.
+Uma tool pode retornar uma série temporal sem dizer se é normal: interpretação é papel da skill.
+A skill NÃO concede permissão. Quem decide se a tool está disponível é o harness.
+Exemplo Hyperf MCP: tool read-only service_health + skill "não declare saudável com uma única query".
+-->
+
+---
+
+## O loop do agente
+
+<div class="flow">
+<div>Objetivo</div><span>→</span>
+<div>Contexto</div><span>→</span>
+<div>Decide</div><span>→</span>
+<div>Usa tools</div><span>→</span>
+<div>Verifica</div><span>↺</span>
+</div>
+
+<br>
+
+<p class="muted">O modelo decide. O <b>harness</b> dá o ambiente.</p>
+
+<!--
+Agente: recebe um objetivo, checa o contexto, decide os passos e usa capacidades externas.
+Sai do loop quando: atingiu o objetivo, falta informação, ou uma pessoa precisa decidir.
+Criar um agente não é só escolher um modelo. Um bom agente responde:
+1. Que problema resolve? 2. Quando usar? 3. Que contextos conhece? 4. Que ações pode executar? 5. Quais exigem aprovação? 6. Como apresenta resultados?
+Exemplo OpenCode: .opencode/agents/ com mode primary, edit negado, skill incident-investigation permitida; "separe fatos, hipóteses e lacunas; nunca aplique mudanças em produção".
+
+Harness: a camada em volta do modelo que controla que informação o agente recebe, quais tools usa, como o estado é mantido, que ações precisam de aprovação, como os resultados são verificados.
+Quando o agente falha, muitas vezes o problema não é o modelo nem o prompt: falta uma tool, uma fonte de contexto, uma validação, uma permissão clara ou um feedback loop.
+Níveis de agente: read-only (inspeciona), proposta (sugere), execução (aplica, com controles fortes e aprovação).
+O que deve durar: ferramentas e protocolos mudam; a separação de responsabilidades fica. Troque a camada de conexão, mantenha skills, regras e limites.
+-->
+
+---
+
+<p class="kicker-dark">Skills por contexto</p>
+
+## O monolito de contexto
+
+<div class="cols middle">
+<div class="card big" style="font-family: 'JetBrains Mono', monospace">AGENTS.md</div>
+<div class="chips">
+<span>arquitetura</span><span>domínios</span><span>padrões</span><span>deploy</span><span>observabilidade</span><span>regras</span><span>runbooks</span><span>testes</span><span>todos os times</span>
+</div>
+</div>
+
+<br>
+
+<p class="muted">Mais contexto <b>não é</b> melhor contexto.</p>
 
 <!--
 Reação comum: dar TUDO ao agente de uma vez: docs, padrões, regras, runbooks, dashboards.
 O agente precisa descobrir sozinho o que importa, o que é confiável, o que está relacionado e o que ignorar. Resultado: ruído.
 É o velho erro de concentrar responsabilidades demais num lugar só.
+
+Primeiro passo comum: um AGENTS.md central com tudo.
+Benefício: tira o conhecimento da cabeça das pessoas.
+Problema: cresce rápido. Fica difícil saber o que vale para esta tarefa, quem atualiza cada parte, qual instrução tem prioridade.
+A causa não é o arquivo central: é misturar o conhecimento de todos os domínios e ferramentas sem fronteiras.
 -->
 
 ---
@@ -632,40 +691,63 @@ Exemplos: Datadog, Argo, Databricks, New Relic, incidentes, performance, mudanç
 
 <br>
 
-<p class="muted">Mesmo objetivo: nenhuma peça com responsabilidade demais.</p>
+<p class="muted">Microsserviços separam <b>software</b>. Context Skills separam <b>conhecimento</b>.</p>
 
 <!--
-A analogia: na época dos microsserviços, quebramos o monolito e separamos os serviços por DOMÍNIO. Agora, na era dos agentes, fazemos o mesmo com o conhecimento: separamos as skills por CONTEXTO.
-O intuito é o mesmo: não dar responsabilidade excessiva a um único fluxo, seja um microsserviço, seja uma skill. Cada um com seu vocabulário, regras, dados, contratos e dono.
-Tecnicamente, skill não é microsserviço (não é runtime, não tem API, não guarda dados). A semelhança está na decomposição.
+A analogia (uma vez só): na época dos microsserviços, quebramos o monolito e separamos os serviços por DOMÍNIO. Agora, na era dos agentes, fazemos o mesmo com o conhecimento: separamos as skills por CONTEXTO. Chamamos essas skills de Context Skills.
+Lição dos microsserviços: bounded context = vocabulário, regras, responsabilidades, contratos, dados e dono. "Transação" significa uma coisa em pagamentos e outra em pedidos.
+Mesmo objetivo: não dar responsabilidade excessiva a uma única peça, seja um microsserviço, seja uma skill.
+Tecnicamente, skill não é microsserviço: não é serviço de produção, não tem API de negócio, não é fronteira de runtime, não armazena dados. Os dados ficam nos sistemas donos. A semelhança está na decomposição.
+Documentação explica um assunto; a Context Skill explica como TRABALHAR com ele. É um contrato de trabalho.
 Em vez de um agente que sabe um pouco de tudo: um agente com visão geral que carrega o contexto especializado quando precisa.
 "Se aprendemos a decompor sistemas por contexto, por que continuamos entregando contexto para a IA em blocos gigantes?"
 -->
 
 ---
 
-<!-- _class: statement -->
-
-> A skill dá **profundidade**. O agente faz a **coordenação**.
-
----
-
-## Especializado ≠ isolado
+## Um agente, vários contextos
 
 <div class="flow">
+<div>Pagamentos</div><span>+</span>
 <div>Observabilidade</div><span>+</span>
-<div>Delivery</div><span>+</span>
-<div>Dados</div><span>→</span>
+<div>Delivery</div><span>→</span>
 <div class="hl">Hipótese</div>
 </div>
 
+<br>
+
+<p class="muted">A skill dá <b>profundidade</b>. O agente faz a <b>coordenação</b>.</p>
+
 <!--
-Uma investigação começa em observabilidade, passa por delivery e termina em dados.
-- Observabilidade: comportamento anômalo
-- Delivery: uma mudança recente
-- Dados: um pipeline alterado
-Conclusão do agente: "erros subiram após a mudança; o serviço passou a receber dados com outra estrutura; as falhas se concentram em pedidos criados depois do update."
-Ainda precisa ser verificada, mas é muito melhor do que uma lista de fatos soltos.
+Especializado não é isolado. Cada Context Skill tem profundidade no seu contexto:
+- Pagamentos: estados de transação, políticas de reembolso, integração com provedor.
+- Observabilidade: investigações com logs, métricas e traces.
+- Delivery: fluxo de deploy, ambientes, aprovações.
+Exemplo: falhas de reembolso subindo. O agente começa em Pagamentos (o que é uma falha de reembolso?), passa por Observabilidade (comportamento anômalo, desde quando) e por Delivery (uma mudança recente).
+Conclusão do agente: "as falhas subiram após o deploy de ontem; o Payment Service passou a enviar outro formato ao provedor; as falhas se concentram em reembolsos criados depois do deploy."
+Ainda precisa ser verificada, e o agente reporta o que é confirmado e o que é incerto. Mas é muito melhor do que uma lista de fatos soltos.
+-->
+
+---
+
+## O que uma Context Skill sabe
+
+<div class="cols5">
+<div class="card big">Vocabulário</div>
+<div class="card big">Responsabilidades</div>
+<div class="card big">Contratos</div>
+<div class="card big">Fontes de verdade</div>
+<div class="card big">Limites</div>
+</div>
+
+<!--
+1. Vocabulário: transação, autorização, captura, reembolso.
+2. Responsabilidades: qual serviço faz o quê, quem é dono, quem decide.
+3. Contratos: APIs, eventos e schemas; o que exige versionamento.
+4. Fontes de verdade: onde estão dados atuais, docs, sinais de produção.
+5. Limites: read-only, o que precisa de aprovação, quando parar e pedir ajuda.
+Ex.: numa investigação de reembolso, distinguir transação AUTORIZADA de CAPTURADA antes de qualquer hipótese.
+Os limites precisam estar alinhados com a segurança: a skill guia, mas não é a única proteção.
 -->
 
 ---
@@ -679,41 +761,54 @@ Ainda precisa ser verificada, mas é muito melhor do que uma lista de fatos solt
 <div class="card big">Limites</div>
 </div>
 
+<br>
+
+<p class="muted">10 skills para uma pergunta simples? <b>Fronteira errada.</b></p>
+
 <!--
 Vago: "Investigar problemas em produção". Sem ponto de partida, sem fontes, sem como ranquear hipóteses.
-Exemplo bom: investigação de latência no domínio de pedidos.
-- Contexto: APIs e serviços de pedidos
+Exemplo bom: investigação de latência no checkout (domínio de pagamentos).
+- Contexto: Payment Service, checkout e integração com o provedor
 - Objetivo: identificar causas prováveis com base em evidências
 - Fontes: logs, métricas e traces; catálogo de serviços; deploys recentes; queries read-only; comparação com período anterior
 - Workflow: serviço/endpoint → quando começou → latência/erros/volume → traces e dependências → mudanças recentes → dados sem modificar → registrar fatos, causas e lacunas
 - Limites: sem alterar dados, sem comandos de escrita, nada sensível no output, escalar se a evidência for insuficiente
 Capacidades: search_logs, query_metrics, get_trace, list_recent_changes, query_readonly_database. Cada uma com sua política de acesso.
+
+O outro extremo também é ruim. Decompor não é criar centenas de skills minúsculas:
+Uma boa fronteira agrupa o que: MUDA junto, é USADO junto, tem DONO relacionado.
+Teste: se esse contexto muda, quem precisa revisar? Se a resposta envolve times muito diferentes, a fronteira está grande demais.
+Comece grande: Observabilidade, Delivery, Dados, Pagamentos, Pedidos, Segurança. Divida (ex.: incidentes, performance, capacidade) só quando houver necessidade real.
+Fronteiras observáveis: registre qual contexto, quais fontes e quais regras guiaram cada resposta.
 -->
 
 ---
 
-<!-- _class: statement -->
+## Se todo mundo é dono, ninguém é
 
-> A skill **guia**. O guardrail **garante**.
+```yaml
+name: payments-context
+owner: payments-team
+review_frequency: quarterly
+sources:
+  - payment-service
+  - payment-documentation
+  - payment-dashboards
+```
 
 <!--
-A skill deve dizer: o que é read-only, o que precisa de aprovação, quais dados podem ser expostos, quando a evidência é insuficiente, quando passar para um humano.
-MAS limites não podem existir só como instrução. Guardrails fixos checam permissões, argumentos, ambiente e impacto ANTES da ação.
-Nunca assuma que o agente vai seguir uma regra de segurança sozinho.
-Como começar: pegue um problema recorrente e observe o expert. Quais perguntas vêm primeiro? Quais fontes? Como interpreta? Que hipóteses descarta? Quando escala? Que output é útil?
+Se ninguém atualiza a skill quando a API muda, o agente trabalha com conhecimento velho.
+O arquivo não resolve a manutenção sozinho, mas torna a responsabilidade visível.
+Onde vive: com o código do time, num repo de plataforma ou num catálogo. Deixe claro: dono, quais agentes usam, fontes externas, versionamento, revisão e permissões.
+Observabilidade → time de plataforma, sem cópias de dados de produção. Pagamentos → time do domínio, apontando para ADRs, contratos e runbooks.
+Transição: "A skill guia. Mas guiar não é garantir."
 -->
 
 ---
 
-<!-- _class: divider -->
-
-<div class="kicker">Parte 5</div>
-
-# Guardrails e fitness functions
-
----
-
 <!-- _class: statement -->
+
+<p class="kicker-dark">Guardrails e fitness functions</p>
 
 > Prompt **orienta**. Não **protege**.
 
@@ -722,6 +817,11 @@ Como começar: pegue um problema recorrente e observe o expert. Quais perguntas 
 Regras no prompt não são barreira: o agente recebe docs novas, combina fontes, lê o código; o texto pode ter instruções conflitantes.
 Checagens dentro da skill ou do MCP têm a mesma fraqueza.
 MCP conecta agentes a sistemas, mas não é um limite de segurança. A autorização vive no serviço que protege o recurso.
+A skill GUIA. O guardrail GARANTE.
+A skill deve dizer: o que é read-only, o que precisa de aprovação, quais dados podem ser expostos, quando a evidência é insuficiente, quando passar para um humano.
+MAS limites não podem existir só como instrução. Guardrails fixos checam permissões, argumentos, ambiente e impacto ANTES da ação.
+Nunca assuma que o agente vai seguir uma regra de segurança sozinho.
+Como começar: pegue um problema recorrente e observe o expert. Quais perguntas vêm primeiro? Quais fontes? Como interpreta? Que hipóteses descarta? Quando escala? Que output é útil?
 -->
 
 ---
@@ -751,9 +851,9 @@ Em vez de "GET sim, POST não", pergunte: quais serviços? quais rotas? quais ca
 </div>
 
 <!--
-1. Token de escopo limitado: principal = agente de investigação; recurso = API de observabilidade de pedidos; operações de leitura específicas; exclui PII e dados de cartão; expira em 15 minutos. O serviço receptor valida o escopo.
+1. Token de escopo limitado: principal = agente de investigação; recurso = API de observabilidade de pagamentos; operações de leitura específicas; exclui PII e dados de cartão; expira em 15 minutos. O serviço receptor valida o escopo.
 2. Dados derivados: eventos, métricas, logs sanitizados vão para réplica/lake/warehouse com retenção, anonimização, filtro de campos e atraso.
-3. Banco com menor privilégio: role dedicada; SELECT só em service_health e request_summary; REVOKE em billing e customers. Views escondem colunas sensíveis.
+3. Banco com menor privilégio: role dedicada; SELECT só em payment_health e refund_summary; REVOKE em cards e customers. Views escondem colunas sensíveis.
 "Não confie no agente para evitar tabelas perigosas. O banco bloqueia."
 -->
 
@@ -771,7 +871,7 @@ Em vez de "GET sim, POST não", pergunte: quais serviços? quais rotas? quais ca
 
 <!--
 Guardrail: mecanismo FORA das intenções do agente que valida, limita ou bloqueia. Vive em identidade, rede, API, banco, sistema de arquivos ou aprovação. Não é um "if" no prompt.
-Exemplo CPU: pods sem CPU → agente correlaciona e forma hipótese → prepara mudança no repo de infra, abre PR e change request → pessoa responsável revisa e aprova → pipeline aplica.
+Exemplo do INC-2291: timeouts com o provedor no checkout → agente correlaciona com uma mudança recente no timeout/pool de conexões do Payment Service e forma a hipótese → prepara a correção no repo de config, abre PR e change request (GMUD) → pessoa responsável revisa e aprova → pipeline aplica.
 O agente NÃO tem a credencial de execução.
 Outros limites: paths, destinos de rede, tamanho de query, tempo de execução, nº de registros, tipos de dados.
 -->
@@ -785,21 +885,21 @@ Outros limites: paths, destinos de rede, tamanho de query, tempo de execução, 
 <br>
 
 <div class="flow">
-<div>Orders</div><span>→</span>
+<div>Payments</div><span>→</span>
 <div class="hl">Shared</div><span>←</span>
-<div>Billing</div>
+<div>Orders</div>
 </div>
 
 <br>
 
-<div class="card bad"><h3>Proibido</h3>Orders importar código interno de Billing</div>
+<div class="card bad"><h3>Proibido</h3>Payments importar código interno de Orders</div>
 
 <!--
 Fitness functions vêm da arquitetura evolutiva: transformar uma característica importante da arquitetura em uma checagem OBJETIVA e CONTÍNUA.
 Podem ser: teste de arquitetura, regra de pipeline, análise estática, consulta de metadados, checagem periódica.
 Não usam IA para decidir: a mesma entrada sempre gera o mesmo resultado.
 O objetivo não é julgar se a resposta do agente "parece boa", e sim verificar que a arquitetura continua com as propriedades que o time valoriza.
-Exemplo do artigo: dois contextos, Orders e Billing. Regra: Orders não pode importar internos de Billing; os dois conversam por um contrato público (Shared).
+Exemplo no nosso domínio: dois contextos que ainda convivem no mesmo código (monólito modular), Payments e Orders. Regra: Payments não pode importar internos de Orders; os dois conversam por um contrato público (Shared). No artigo o exemplo usa Orders e Billing; a ideia é a mesma.
 -->
 
 ---
@@ -811,22 +911,22 @@ Exemplo do artigo: dois contextos, Orders e Billing. Regra: Orders não pode imp
 deptrac:
   paths: [./src]
   layers:
+    - name: Payments
+      collectors: [{ type: classLike, value: 'App\\Payments\\.*' }]
     - name: Orders
       collectors: [{ type: classLike, value: 'App\\Orders\\.*' }]
-    - name: Billing
-      collectors: [{ type: classLike, value: 'App\\Billing\\.*' }]
     - name: Shared
       collectors: [{ type: classLike, value: 'App\\Shared\\.*' }]
   ruleset:
-    Orders:  [Shared]
-    Billing: [Shared]
+    Payments: [Shared]
+    Orders:   [Shared]
 ```
 
 <!--
 Deptrac: ferramenta de análise estática para PHP que define camadas e as dependências permitidas entre elas.
 - paths: onde analisar (src).
 - layers: cada contexto é identificado por um padrão de nome de classe.
-- ruleset: Orders só pode depender de Shared; Billing só pode depender de Shared. Qualquer outra dependência entre contextos é violação.
+- ruleset: Payments só pode depender de Shared; Orders só pode depender de Shared. Qualquer outra dependência entre contextos é violação.
 No pipeline: vendor/bin/deptrac analyse --config-file=deptrac.yaml
 -->
 
@@ -838,11 +938,11 @@ No pipeline: vendor/bin/deptrac analyse --config-file=deptrac.yaml
 <div>
 
 ```php
-namespace App\Orders;
+namespace App\Payments;
 
-use App\Billing\Internal\InvoiceCalculator;
+use App\Orders\Internal\OrderItemRepository;
 
-final class RefundOrder
+final class PartialRefund
 {
     // ...
 }
@@ -854,10 +954,10 @@ final class RefundOrder
 ```text
 $ vendor/bin/deptrac analyse
 
-Orders → Billing
-  App\Orders\RefundOrder
+Payments → Orders
+  App\Payments\PartialRefund
   depende de
-  App\Billing\Internal\...
+  App\Orders\Internal\...
 
 Violations: 1
 ✕ pipeline falhou
@@ -869,7 +969,7 @@ Violations: 1
 <p class="muted">O PR falha, mesmo com o prompt pedindo o contrário.</p>
 
 <!--
-Cenário: o agente implementa algo em Orders e, para "resolver rápido", importa uma classe interna de Billing.
+Cenário (prévia do Ato 3): o agente implementa o reembolso parcial em Payments e precisa dos itens do pedido. Para "resolver rápido", importa um repositório interno de Orders em vez de usar o contrato público em Shared.
 O prompt pedia para respeitar a fronteira. Não importa: o Deptrac roda no pipeline e o PR falha.
 A saída na tela é resumida/ilustrativa; o ponto é que a violação é detectada de forma determinística.
 Deptrac não lê prompt, não interpreta intenção, não julga qualidade de código. Só checa dependências contra as regras que o time definiu.
@@ -891,189 +991,20 @@ Deptrac não lê prompt, não interpreta intenção, não julga qualidade de có
 AI-friendly não é deixar o agente fazer mais. É dar contexto sem transformar cada fonte em nova superfície de ataque.
 Permissões: identidade, menor privilégio, escopo, auditoria, revogação.
 Fitness functions: rodam no pipeline e verificam a cada PR que as regras de arquitetura continuam valendo, mesmo meses depois e mesmo com o código mudando.
+Transição para o Ato 3: "Contexto organizado, limites fora do prompt. Agora vamos ver tudo isso numa task real."
 -->
 
 ---
 
 <!-- _class: divider -->
 
-<div class="kicker">Parte 6</div>
-
-# Context Skills
-
----
-
-## O monolito de contexto
-
-<div class="cols middle">
-<div class="card big" style="font-family: 'JetBrains Mono', monospace">AGENTS.md</div>
-<div class="chips">
-<span>arquitetura</span><span>domínios</span><span>padrões</span><span>deploy</span><span>observabilidade</span><span>regras</span><span>runbooks</span><span>testes</span><span>todos os times</span>
-</div>
-</div>
-
-<!--
-Primeiro passo comum: um AGENTS.md central com tudo.
-Benefício: tira o conhecimento da cabeça das pessoas.
-Problema: cresce rápido. Fica difícil saber o que vale para esta tarefa, quem atualiza cada parte, qual instrução tem prioridade.
-A causa não é o arquivo central: é misturar o conhecimento de todos os domínios e ferramentas sem fronteiras.
-Lição dos microsserviços: bounded context = vocabulário, regras, responsabilidades, contratos, dados e dono. "Transação" significa uma coisa em pagamentos e outra em pedidos.
--->
-
----
-
-## Um agente, vários contextos
-
-<div class="cols3">
-<div class="card big">Pagamentos</div>
-<div class="card big">Delivery</div>
-<div class="card big">Observabilidade</div>
-</div>
-
-<br>
-
-<p class="muted">Microsserviços separam <b>software</b>. Context Skills separam <b>conhecimento</b>.</p>
-
-<!--
-- Pagamentos: estados de transação, políticas de reembolso, integração com provedor.
-- Delivery: fluxo de deploy, ambientes, aprovações.
-- Observabilidade: investigações com logs, métricas e traces.
-Skill NÃO é serviço de produção, não tem API de negócio, não é fronteira de runtime, não armazena dados. Os dados ficam nos sistemas donos.
-Documentação explica um assunto; a Context Skill explica como TRABALHAR com ele. É um contrato de trabalho.
-Exemplo do agente conectando: falhas de pagamento subindo → Payments → Observability → Delivery → Data Platform → hipótese → reportar o que é confirmado e o que é incerto.
--->
-
----
-
-## O que uma Context Skill sabe
-
-<div class="cols5">
-<div class="card big">Vocabulário</div>
-<div class="card big">Responsabilidades</div>
-<div class="card big">Contratos</div>
-<div class="card big">Fontes de verdade</div>
-<div class="card big">Limites</div>
-</div>
-
-<!--
-1. Vocabulário: transação, autorização, captura, reembolso.
-2. Responsabilidades: qual serviço faz o quê, quem é dono, quem decide.
-3. Contratos: APIs, eventos e schemas; o que exige versionamento.
-4. Fontes de verdade: onde estão dados atuais, docs, sinais de produção.
-5. Limites: read-only, o que precisa de aprovação, quando parar e pedir ajuda.
-Ex.: numa investigação de reembolso, distinguir transação AUTORIZADA de CAPTURADA antes de qualquer hipótese.
-Os limites precisam estar alinhados com a segurança: a skill guia, mas não é a única proteção.
--->
-
----
-
-<!-- _class: statement -->
-
-> 10 skills para uma pergunta simples? **Fronteira errada.**
-
-<!--
-Decompor não é criar centenas de skills minúsculas.
-Uma boa fronteira agrupa o que: MUDA junto, é USADO junto, tem DONO relacionado.
-Teste: se esse contexto muda, quem precisa revisar? Se a resposta envolve times muito diferentes, a fronteira está grande demais.
-Comece grande: Observabilidade, Delivery, Dados, Pagamentos, Pedidos, Segurança. Divida (ex.: incidentes, performance, capacidade) só quando houver necessidade real.
-Fronteiras observáveis: registre qual contexto, quais fontes e quais regras guiaram cada resposta.
--->
-
----
-
-## Se todo mundo é dono, ninguém é
-
-```yaml
-name: payments-context
-owner: payments-team
-review_frequency: quarterly
-sources:
-  - payment-service
-  - payment-documentation
-  - payment-dashboards
-```
-
-<!--
-Se ninguém atualiza a skill quando a API muda, o agente trabalha com conhecimento velho.
-O arquivo não resolve a manutenção sozinho, mas torna a responsabilidade visível.
-Onde vive: com o código do time, num repo de plataforma ou num catálogo. Deixe claro: dono, quais agentes usam, fontes externas, versionamento, revisão e permissões.
-Observabilidade → time de plataforma, sem cópias de dados de produção. Pagamentos → time do domínio, apontando para ADRs, contratos e runbooks.
--->
-
----
-
-<!-- _class: divider -->
-
-<div class="kicker">Parte 7</div>
-
-# Agentes, skills, tools e MCP
-
----
-
-## O loop do agente
-
-<div class="flow">
-<div>Objetivo</div><span>→</span>
-<div>Contexto</div><span>→</span>
-<div>Decide</div><span>→</span>
-<div>Usa tools</div><span>→</span>
-<div>Verifica</div><span>↺</span>
-</div>
-
-<!--
-Agente: recebe um objetivo, checa o contexto, decide os passos e usa capacidades externas.
-Sai do loop quando: atingiu o objetivo, falta informação, ou uma pessoa precisa decidir.
-Criar um agente não é só escolher um modelo. Um bom agente responde:
-1. Que problema resolve? 2. Quando usar? 3. Que contextos conhece? 4. Que ações pode executar? 5. Quais exigem aprovação? 6. Como apresenta resultados?
-Exemplo OpenCode: .opencode/agents/ com mode primary, edit negado, skill incident-investigation permitida; "separe fatos, hipóteses e lacunas; nunca aplique mudanças em produção".
--->
-
----
-
-## Quatro peças
-
-<div class="cols4">
-<div class="card accent big">Agente<br><span class="small muted">coordena</span></div>
-<div class="card big">Skill<br><span class="small muted">guia</span></div>
-<div class="card big">Tool<br><span class="small muted">executa</span></div>
-<div class="card big">MCP<br><span class="small muted">conecta</span></div>
-</div>
-
-<!--
-- Agente: coordena um objetivo num loop de contexto, decisão, uso de tools e verificação.
-- Skill: conhecimento e workflow para uma tarefa (ex.: .opencode/skills/incident-investigation/SKILL.md). Não concede permissões.
-- Tool: uma capacidade executável com descrição, schema de input e resultado (ex.: query_metrics com service, metric, from, to).
-- MCP: protocolo que padroniza como clientes descobrem e usam tools, resources e prompts de servidores.
-
-Tool vs. skill:
-Skill: como pensar o problema, quando checar cada fonte, como interpretar, quais limites respeitar.
-Tool: qual ação pode rodar, quais inputs precisa, qual resultado retorna.
-Uma skill de observabilidade usa várias tools (logs, métricas, traces, deploys) e explica como combiná-las. Tools podem ser compartilhadas entre skills.
-Uma tool pode retornar uma série temporal sem dizer se é normal: interpretação é papel da skill.
-A skill NÃO concede permissão. Quem decide se a tool está disponível é o harness.
-Exemplo Hyperf MCP: tool read-only service_health + skill "não declare saudável com uma única query".
--->
-
----
-
-<!-- _class: statement -->
-
-> O modelo decide. O **harness** dá o ambiente.
-
-<!--
-Harness: a camada em volta do modelo que controla que informação o agente recebe, quais tools usa, como o estado é mantido, que ações precisam de aprovação, como os resultados são verificados.
-Quando o agente falha, muitas vezes o problema não é o modelo nem o prompt: falta uma tool, uma fonte de contexto, uma validação, uma permissão clara ou um feedback loop.
-Níveis de agente: read-only (inspeciona), proposta (sugere), execução (aplica, com controles fortes e aprovação).
-O que deve durar: ferramentas e protocolos mudam; a separação de responsabilidades fica. Troque a camada de conexão, mantenha skills, regras e limites.
--->
-
----
-
-<!-- _class: divider -->
-
-<div class="kicker">Parte 8</div>
+<div class="kicker">Ato 3 · Na prática</div>
 
 # Do épico à produção
+
+<!--
+Terceiro ato: juntar tudo numa task real do domínio de pagamentos, o reembolso parcial, e no fim perguntar: como sei que funcionou?
+-->
 
 ---
 
@@ -1129,24 +1060,15 @@ Entender o problema, decisões, critérios de sucesso, ambientes e sinais podem 
 
 ---
 
-<!-- _class: statement -->
+## Perguntar → spike → decisão
 
-> O primeiro trabalho do agente é **perguntar**.
+<div class="cols3">
+<div class="card">
 
-<!--
-Questionar o épico, não criar arquivos:
-- Quem pode pedir reembolso? Quais itens são elegíveis? Há prazo?
-- Vários reembolsos por pedido? E se houver um em andamento?
-- De onde vem o valor? E se o provedor aceita e nós falhamos?
-- Quando o estoque é liberado? Como o cliente é notificado?
-Questionar não bloqueia: transforma ambiguidade em decisões explícitas, cedo. Perguntas abertas vão para PO e times. Uma skill de planning guia isso.
--->
+### Perguntas
+Ambiguidade vira decisão
 
----
-
-## Spike → decisão registrada
-
-<div class="cols">
+</div>
 <div class="card">
 
 ### Spike
@@ -1161,7 +1083,18 @@ Opções · Escolha · Riscos
 </div>
 </div>
 
+<br>
+
+<p class="muted">O primeiro trabalho do agente é <b>perguntar</b>.</p>
+
 <!--
+Questionar o épico, não criar arquivos:
+- Quem pode pedir reembolso? Quais itens são elegíveis? Há prazo?
+- Vários reembolsos por pedido? E se houver um em andamento?
+- De onde vem o valor? E se o provedor aceita e nós falhamos?
+- Quando o estoque é liberado? Como o cliente é notificado?
+Questionar não bloqueia: transforma ambiguidade em decisões explícitas, cedo. Perguntas abertas vão para PO e times. Uma skill de planning guia isso.
+
 Spike guiado por Context Skills (pedidos, pagamentos, observabilidade): modelo/contrato do pedido → fluxo de cancelamento → integração com provedor → testes de reembolso → eventos publicados → consumidores → sinais de produção. Reconstruir o fluxo, não só achar nomes de arquivo.
 Decisão registrada (exemplo):
 - Contexto: fluxo atual só reembolsa o valor total.
@@ -1169,19 +1102,6 @@ Decisão registrada (exemplo):
 - Decisão: reutilizar a transação e rastrear o total reembolsado.
 - Consequências: provedor suporta múltiplos reembolsos; eventos identificam itens; idempotência; consumidores antigos seguem funcionando.
 - Riscos: concorrência; estado externo vs. interno divergindo; consumidores sem o novo formato.
--->
-
----
-
-<!-- _class: statement -->
-
-> Código existir **não é** problema resolvido.
-
-<!--
-Critérios de sucesso: itens elegíveis selecionáveis; reembolso nunca excede o pago; sem duplicidade; dados corretos no provedor; estoque atualizado; notificação clara; consumidores antigos ok; erro e latência estáveis; menos tickets; operação investigável depois.
-Cuidado: menos tickets só é sucesso se o erro ficar estável. Senão o problema só ficou escondido do suporte.
-Tarefas: endpoint, validação, provedor, idempotência, versionamento de eventos, consumidores, testes, QA, métricas, dashboards, runbook. O time confirma a divisão.
-Testes: "o que precisa estar configurado em QA para confiarmos?" Se a resposta é "nada", o plano é fraco.
 -->
 
 ---
@@ -1203,7 +1123,16 @@ Sucesso · falhas · divergência
 </div>
 </div>
 
+<br>
+
+<p class="muted">Código existir <b>não é</b> problema resolvido.</p>
+
 <!--
+Critérios de sucesso: itens elegíveis selecionáveis; reembolso nunca excede o pago; sem duplicidade; dados corretos no provedor; estoque atualizado; notificação clara; consumidores antigos ok; erro e latência estáveis; menos tickets; operação investigável depois.
+Cuidado: menos tickets só é sucesso se o erro ficar estável. Senão o problema só ficou escondido do suporte.
+Tarefas: endpoint, validação, provedor, idempotência, versionamento de eventos, consumidores, testes, QA, métricas, dashboards, runbook. O time confirma a divisão.
+Testes: "o que precisa estar configurado em QA para confiarmos?" Se a resposta é "nada", o plano é fraco.
+
 Para cada feature: logs, métricas, traces, queries, sinais de sucesso, de degradação e gatilhos de rollback.
 Reembolso parcial: reembolsos iniciados e confirmados, falhas do provedor, valor total, tempo até confirmação, divergência entre estado externo e interno, retries, falhas por provedor/meio de pagamento.
 O agente ajuda a escrever queries e dashboards; escolher o que observar é decisão de engenharia.
@@ -1310,7 +1239,7 @@ Dica prática: tornar esse campo obrigatório no template de task do time.
 </div>
 
 <!--
-O link da task leva para a mesma página que vimos lá na parte 2.
+O link da task leva para a mesma página que vimos no Ato 1.
 A página não copia nada: ela APONTA. Código, decisão, contrato, runbook, dashboard e incidente, cada um no sistema onde vive.
 Dono e data de atualização dizem ao agente se pode confiar nessa página.
 -->
@@ -1387,7 +1316,7 @@ As duas perguntas não estão respondidas na task nem na ADR. As respostas viram
 
 <!--
 - Skills de architecture e testing: o plano se apoia na decisão registrada (ADR-012), não numa ideia nova. Os testes saem dos critérios de sucesso.
-- Skill de delivery: o agente PREPARA o PR e o change record. Os guardrails continuam valendo: fitness functions rodam no pipeline e quem aprova é uma pessoa.
+- Skill de delivery: o agente PREPARA o PR e o change record. Os guardrails continuam valendo: fitness functions rodam no pipeline (a regra do Ato 2: Payments não importa internos de Orders; o PR passou porque o agente usou o contrato público) e quem aprova é uma pessoa.
 - Preparar ≠ executar: o time revisa o PR e a GMUD (gestão de mudança) passa pela aprovação. Só depois disso a pessoa sobe em produção pelo pipeline.
 -->
 
@@ -1406,22 +1335,54 @@ As duas perguntas não estão respondidas na task nem na ADR. As respostas viram
 - Skill de observability: o agente sabe qual dashboard olhar porque o link está na página do domínio. Compara com o baseline e com os critérios de sucesso definidos antes do código.
 - O limite de alerta (2% de falha) foi definido pelo time; o agente acompanha e avisa, a decisão de continuar ou reverter é humana.
 - Fechando o ciclo: a documentação é atualizada, e a próxima task começa com mais contexto.
-Transição: "E como a gente sabe se o agente está trabalhando bem? Observando o próprio agente."
+Transição: "A feature funcionou. Mas e o agente, trabalhou bem?"
 -->
 
 ---
 
-<!-- _class: divider -->
+## Na prática: e a sessão do agente?
 
-<div class="kicker">Parte 9</div>
+<div class="chat">
+<div class="msg user"><span class="who">Você</span>E essa sessão, como foi?</div>
+<div class="msg agent"><span class="who">Agente</span><div class="skills"><span class="skill">agent-observability</span></div>Pelo <a>dashboard de sessões</a> (OpenTelemetry):
+<ul><li>Contexto encontrado a partir de 1 link, em 4 tool calls</li><li>2 perguntas viraram decisões registradas</li><li>2 aprovações humanas: PR e GMUD</li><li>0 violações de fitness function, 0 retrabalho</li></ul></div>
+</div>
 
-# Observando o próprio agente
+<br>
+
+<p class="muted">A feature foi medida. O <b>agente</b> também precisa ser.</p>
+
+<!--
+Fechando a simulação: a mesma pergunta que fizemos para a feature, agora para o agente.
+Os números são ilustrativos. O ponto é o TIPO de sinal: quanto custou achar o contexto, quantas decisões saíram das perguntas, onde houve aprovação humana, se os guardrails pegaram algo, se houve retrabalho.
+Repare que os sinais refletem a arquitetura: achou o contexto rápido porque a task apontava para o domínio; zero violação porque a fronteira estava clara.
+Transição: "Como eu sei que isso funcionou de verdade, e não só pareceu funcionar?"
+-->
 
 ---
 
-<!-- _class: statement -->
+<p class="kicker-dark">Observando o próprio agente</p>
 
-> Sem sinais, toda avaliação é **impressão**.
+## Como sei que funcionou?
+
+<div class="cols">
+<div class="card">
+
+### Atividade
+Tokens · tool calls · duração
+
+</div>
+<div class="card good">
+
+### Resultado
+Menos retrabalho? Melhores evidências?
+
+</div>
+</div>
+
+<br>
+
+<p class="muted">Sem sinais, toda avaliação é <b>impressão</b>.</p>
 
 <!--
 Avaliar só pelo resultado (PR criado? testes passando?) não explica o caminho:
@@ -1431,17 +1392,8 @@ Avaliar só pelo resultado (PR criado? testes passando?) não explica o caminho:
 - Quando precisou de aprovação?
 - A causa foi o modelo, a doc, a integração ou o fluxo?
 Uma sessão de agente é um fluxo distribuído: modelo, contexto, tools, permissões, sistemas externos, arquivos, testes, decisões humanas.
--->
 
----
-
-## O que medir
-
-<div class="chips">
-<span>sessões</span><span>duração</span><span>tempo em tools</span><span>tokens e custo</span><span>erros e retries</span><span>aprovações</span><span>testes</span><span>resultado</span>
-</div>
-
-<!--
+O que medir: sessões, duração, tempo em tools, tokens e custo, erros e retries, aprovações, testes, resultado.
 Não é gravar tudo, vigiar devs ou tratar tokens como produtividade. É evidência para decisões de engenharia.
 Perguntas:
 - A doc nova reduziu o tempo até a primeira hipótese útil?
@@ -1449,6 +1401,22 @@ Perguntas:
 - Um MCP externo adiciona latência sem melhorar o resultado?
 - A aprovação vem cedo ou tarde demais?
 - Uma mudança de contexto aumentou custo por informação útil ou por ruído?
+
+Armadilha: observar só atividade. Mais mensagens ≠ mais progresso. Mais tokens = contexto melhor OU agente perdido. Mais tool calls = investigação cuidadosa OU falta de docs.
+- Tokens → tarefa concluída com menos retrabalho?
+- Tool calls → melhores evidências?
+- Duração → mais qualidade ou só espera?
+- Aprovações → limites de autonomia adequados?
+- Linhas alteradas → testes e critérios atendidos?
+Senão, a observabilidade vira placar de volume.
+
+O contexto aparece nas métricas:
+- Buscas longas → contexto difícil de navegar
+- Consultas repetidas → falta uma skill
+- Chamadas lentas → integração ruim
+- Aprovação a cada passo → permissões ou fluxo
+Contexto não é só algo que damos ao agente: dá para AVALIÁ-LO pelo comportamento observado.
+A telemetria fecha o ciclo entre contexto, execução e aprendizado.
 -->
 
 ---
@@ -1463,11 +1431,26 @@ Perguntas:
 <div>Grafana</div>
 </div>
 
+<br>
+
+<p class="muted">Telemetria também é <b>dado sensível</b>.</p>
+
 <!--
 Padrão aberto, open source, sem plataforma proprietária para começar.
 OpenCode é o exemplo (plugin exportando via OTLP), mas vale para Claude Code, Codex, Cursor ou qualquer ferramenta com exporter, plugin ou hook.
 Use conceitos estáveis no backend: session, model call, tool, approval, error, result.
 Separar quem PRODUZ eventos de quem OBSERVA: troque a ferramenta sem reconstruir a observabilidade.
+
+Telemetria também é dado sensível:
+- sem prompts em métricas
+- sanitizar argumentos
+- paths não viram labels
+- retenção definida antes da coleta
+- cuidado com session_id
+Telemetria carrega regras internas em prompts, tokens em argumentos de tools, dados de clientes em resultados, código em traces, estrutura revelada por paths.
+Aplicação determinística: Collector, gateway de telemetria, políticas de acesso. Credenciais fora da config versionada; menor privilégio nos destinos.
+session_id: ótimo no lab para investigar uma sessão; em produção cria uma série por sessão (cardinalidade cara). Prefira métricas agregadas e traces/logs sanitizados num backend próprio.
+Lab: github.com/sschonss/agent-observability-with-opentelemetry. Collector + Prometheus + Grafana com docker compose; logs e traces desligados no início. Comece pequeno e expanda.
 -->
 
 ---
@@ -1490,66 +1473,7 @@ Lab local: OpenTelemetry Collector + Prometheus + Grafana via docker compose, co
 OpenCode é o exemplo de instrumentação (plugin @devtheops/opencode-plugin-otel); o backend aceita outras ferramentas.
 Passos: docker compose up -d → source examples/opencode-environment.sh → opencode.
 Logs e traces começam desligados porque podem conter prompts, código e argumentos sensíveis.
--->
-
----
-
-## Atividade → resultado
-
-<div class="cols">
-<div class="card">
-
-### Atividade
-Tokens · tool calls · duração
-
-</div>
-<div class="card good">
-
-### Resultado
-Menos retrabalho? Melhores evidências?
-
-</div>
-</div>
-
-<!--
-Armadilha: observar só atividade. Mais mensagens ≠ mais progresso. Mais tokens = contexto melhor OU agente perdido. Mais tool calls = investigação cuidadosa OU falta de docs.
-- Tokens → tarefa concluída com menos retrabalho?
-- Tool calls → melhores evidências?
-- Duração → mais qualidade ou só espera?
-- Aprovações → limites de autonomia adequados?
-- Linhas alteradas → testes e critérios atendidos?
-Senão, a observabilidade vira placar de volume.
--->
-
----
-
-## O contexto aparece nas métricas
-
-<div class="cols">
-<div class="card"><h3>Buscas longas</h3><span class="muted">contexto difícil de navegar</span></div>
-<div class="card"><h3>Consultas repetidas</h3><span class="muted">falta uma skill</span></div>
-<div class="card"><h3>Chamadas lentas</h3><span class="muted">integração ruim</span></div>
-<div class="card"><h3>Aprovação a cada passo</h3><span class="muted">permissões ou fluxo</span></div>
-</div>
-
-<!--
-Contexto não é só algo que damos ao agente: dá para AVALIÁ-LO pelo comportamento observado.
-A telemetria fecha o ciclo entre contexto, execução e aprendizado.
--->
-
----
-
-## Telemetria também é dado sensível
-
-<div class="chips">
-<span>sem prompts em métricas</span><span>sanitizar argumentos</span><span>paths não viram labels</span><span>retenção antes da coleta</span><span>cuidado com session_id</span>
-</div>
-
-<!--
-Telemetria carrega regras internas em prompts, tokens em argumentos de tools, dados de clientes em resultados, código em traces, estrutura revelada por paths.
-Aplicação determinística: Collector, gateway de telemetria, políticas de acesso. Credenciais fora da config versionada; menor privilégio nos destinos.
-session_id: ótimo no lab para investigar uma sessão; em produção cria uma série por sessão (cardinalidade cara). Prefira métricas agregadas e traces/logs sanitizados num backend próprio.
-Lab: github.com/sschonss/agent-observability-with-opentelemetry. Collector + Prometheus + Grafana com docker compose; logs e traces desligados no início. Comece pequeno e expanda.
+Transição: "Então, por onde começar?"
 -->
 
 ---
@@ -1588,7 +1512,44 @@ Lab: github.com/sschonss/agent-observability-with-opentelemetry. Collector + Pro
 
 <!--
 Agentes melhores dependem menos de adivinhar e mais de contexto, limites, evidências e feedback.
-Se a arquitetura ajuda pessoas a tomar decisões melhores, ela também ajuda agentes.
+Transição: voltar à analogia do começo.
+-->
+
+---
+
+<!-- _class: statement -->
+
+> O que ajuda a **pessoa nova** também ajuda o **agente**.
+
+<!--
+Callback da abertura: "A IA é a pessoa nova do time."
+Tudo o que vimos (docs com dono, decisões registradas, observabilidade que conta a história, contexto por domínio, limites claros) ajuda primeiro as pessoas. O agente é só a pessoa nova que chega todo dia.
+Se a arquitetura ajuda pessoas a tomar decisões melhores, ela também ajuda agentes. E vice-versa.
+-->
+
+---
+
+<div class="qr-slide">
+<div>
+
+<p class="kicker-dark">Esta palestra é baseada na minha série de artigos</p>
+
+# AI-Friendly Architecture
+
+<p class="muted">9 artigos</p>
+
+<p class="site">luizschons.com/series/ai-friendly-architecture</p>
+
+</div>
+<figure class="qr">
+<img src="assets/qr-serie.svg" alt="QR code da série">
+<figcaption>Escaneie para ler a série</figcaption>
+</figure>
+</div>
+
+<!--
+Para se aprofundar: a palestra é um resumo da série de 9 artigos (luizschons.com/series/ai-friendly-architecture). Deixar alguns segundos para quem quiser escanear.
+Depois, ir para as perguntas.
 -->
 
 ---
