@@ -402,6 +402,11 @@ Este é o domínio do exemplo da palestra: o INC-2291 é a latência no checkout
 <div class="card big">Ainda vale?</div>
 </div>
 
+<br>
+
+<p class="muted">Contexto sem dono vira contexto abandonado.</p>
+
+
 <!--
 Documentação sem dono vira documentação abandonada. Decisão sem data nem autor vira regra sem motivo.
 - Quem é responsável por esse contexto?
@@ -810,6 +815,11 @@ Transição: "A skill guia. Mas guiar não é garantir."
 
 > Prompt **orienta**. Não **protege**.
 
+<br>
+
+<p class="muted">A skill guia. O guardrail garante.</p>
+
+
 <!--
 "Use a API de produção só para leitura." "Nunca acesse endpoints de admin."
 Regras no prompt não são barreira: o agente recebe docs novas, combina fontes, lê o código; o texto pode ter instruções conflitantes.
@@ -848,6 +858,11 @@ Em vez de "GET sim, POST não", pergunte: quais serviços? quais rotas? quais ca
 <div class="card accent big">Role mínima</div>
 </div>
 
+<br>
+
+<p class="muted">Quem bloqueia é o banco, não o agente.</p>
+
+
 <!--
 1. Token de escopo limitado: principal = agente de investigação; recurso = API de observabilidade de pagamentos; operações de leitura específicas; exclui PII e dados de cartão; expira em 15 minutos. O serviço receptor valida o escopo.
 2. Dados derivados: eventos, métricas, logs sanitizados vão para réplica/lake/warehouse com retenção, anonimização, filtro de campos e atraso.
@@ -866,6 +881,11 @@ Em vez de "GET sim, POST não", pergunte: quais serviços? quais rotas? quais ca
 <div class="wait">Humano aprova</div><span>→</span>
 <div class="ok">Pipeline aplica</div>
 </div>
+
+<br>
+
+<p class="muted">O agente não tem a credencial de execução.</p>
+
 
 <!--
 Guardrail: mecanismo FORA das intenções do agente que valida, limita ou bloqueia. Vive em identidade, rede, API, banco, sistema de arquivos ou aprovação. Não é um "if" no prompt.
@@ -1345,6 +1365,9 @@ Transição: "A feature funcionou. Mas e o agente, trabalhou bem?"
 <div class="msg agent"><span class="who">Agente</span><div class="skills"><span class="skill">agent-observability</span></div>4 tool calls · 2 aprovações · 0 retrabalho</div>
 </div>
 
+<p class="muted small">exemplo ilustrativo</p>
+
+
 <!--
 Fechando a simulação: a mesma pergunta que fizemos para a feature, agora para o agente. A feature foi medida; o agente também precisa ser.
 Leitura do dashboard de sessões (OpenTelemetry): contexto encontrado a partir de 1 link, em 4 tool calls; 2 perguntas viraram decisões registradas; 2 aprovações humanas (PR e GMUD); 0 violações de fitness function; 0 retrabalho.
@@ -1372,9 +1395,12 @@ Menos retrabalho? Melhores evidências?
 </div>
 </div>
 
-<br>
-
 <p class="muted">Sem sinais, toda avaliação é <b>impressão</b>.</p>
+
+<div class="chips">
+<span>busca longa → contexto</span><span>repetição → skill</span><span>aprovação → permissão</span>
+</div>
+
 
 <!--
 Avaliar só pelo resultado (PR criado? testes passando?) não explica o caminho:
