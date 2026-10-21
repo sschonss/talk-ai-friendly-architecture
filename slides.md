@@ -88,7 +88,6 @@ Transição: "Vou dividir a conversa em três atos."
 <div class="card"><p class="muted small">Ato 3</p><h3>Na prática</h3></div>
 </div>
 
-<br>
 
 
 <!--
