@@ -90,7 +90,6 @@ Transição: "Vou dividir a conversa em três atos."
 
 <br>
 
-<p class="muted">Um exemplo só: <b>reembolso parcial</b>.</p>
 
 <!--
 Três atos, construídos a partir da série de 9 artigos.
