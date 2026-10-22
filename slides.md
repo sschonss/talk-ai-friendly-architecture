@@ -227,29 +227,28 @@ Ter a informação não basta: ela precisa ser encontrável e combinável.
 
 ## Incidente: latência no checkout
 
-<div class="cols">
-<div class="card bad">
-
-### Sem contexto
-- Logs errados
-- Dashboards sem sentido
-- Hipóteses genéricas
-
+<p class="muted small">Sem contexto</p>
+<div class="flow muted-arrows">
+<div class="bad">Docs erradas</div><span>→</span>
+<div class="bad">Logs errados</div><span>→</span>
+<div class="bad">Hipótese genérica</div>
 </div>
-<div class="card good">
 
-### Com contexto
-- Payment Service → docs
-- Sinais → ADRs
-- Hipóteses focadas
+<br>
 
-</div>
+<p class="muted small">Com contexto</p>
+<div class="flow">
+<div><code>docs/payments</code></div><span>→</span>
+<div>Runbook</div><span>→</span>
+<div>Queries</div><span>→</span>
+<div class="ok">Hipótese focada</div>
 </div>
 
 <!--
 Apresentar o domínio que vai nos acompanhar até o fim: pagamentos. Cenário: a latência do checkout começa a subir (vamos chamar de INC-2291).
 SEM arquitetura AI-friendly, o agente depende de sorte: procura logs no serviço errado, lê dashboards sem saber quais métricas importam, perde tempo e sugere hipóteses genéricas ("aumente os recursos").
-COM contexto organizado:
+COM contexto organizado o caminho é direto: entra na pasta de docs do domínio, acha o runbook de latência, usa as queries prontas e chega numa hipótese focada.
+Em detalhe:
 1. Identifica o serviço afetado (Payment Service)
 2. Consulta a doc do domínio de pagamentos
 3. Correlaciona sinais de observabilidade (latência do provedor, timeouts, deploys)
