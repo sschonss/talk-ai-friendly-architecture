@@ -755,11 +755,12 @@ Os limites precisam estar alinhados com a segurança: a skill guia, mas não é 
 
 ## Uma skill bem delimitada
 
-<div class="cols4">
+<div class="cols5">
 <div class="card big">Contexto</div>
 <div class="card big">Objetivo</div>
 <div class="card big">Fontes</div>
 <div class="card big">Limites</div>
+<div class="card big">Ownership</div>
 </div>
 
 <br>
@@ -774,6 +775,7 @@ Exemplo bom: investigação de latência no checkout (domínio de pagamentos).
 - Fontes: logs, métricas e traces; catálogo de serviços; deploys recentes; queries read-only; comparação com período anterior
 - Workflow: serviço/endpoint → quando começou → latência/erros/volume → traces e dependências → mudanças recentes → dados sem modificar → registrar fatos, causas e lacunas
 - Limites: sem alterar dados, sem comandos de escrita, nada sensível no output, escalar se a evidência for insuficiente
+- Ownership: quem é dono da skill e revisa quando o contexto muda (ex.: payments-team)
 Capacidades: search_logs, query_metrics, get_trace, list_recent_changes, query_readonly_database. Cada uma com sua política de acesso.
 
 O outro extremo também é ruim. Decompor não é criar centenas de skills minúsculas:
