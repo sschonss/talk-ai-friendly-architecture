@@ -1455,45 +1455,27 @@ Transição: "E o que fazer na segunda-feira?"
 
 ---
 
-## Segunda-feira
+## Agentes melhores precisam de
 
-<ol class="steps">
-<li>Um fluxo crítico</li>
-<li>O teste da pessoa nova</li>
-<li>Uma skill a partir de um expert</li>
-<li>Limites fora do prompt</li>
-<li>Medir e iterar</li>
-</ol>
+<div class="cols4">
+<div class="card big">Contexto<div class="small muted">docs e ADRs</div></div>
+<div class="card big">Limites<div class="small muted">guardrails</div></div>
+<div class="card big">Evidências<div class="small muted">sinais reais</div></div>
+<div class="card big accent">Feedback<div class="small muted">doc que evolui</div></div>
+</div>
 
-<!--
-1. Escolha um fluxo crítico: incidentes, onboarding ou área sensível.
-2. Faça o teste da pessoa nova com uma tarefa real. Crie README, context.md e links.md do domínio. Registre ADRs.
-3. Instrumente o fluxo com correlation ID. Escreva uma skill observando como um expert resolve o problema.
-4. Dê ao agente credenciais escopadas e coloque uma fitness function no CI.
-5. Meça as sessões do agente e itere com evidência.
--->
+<br>
 
----
-
-<!-- _class: statement -->
-
-> Contexto. Limites. Evidências. **Feedback.**
+<p class="muted">Menos adivinhação. Mais <b>arquitetura</b>.</p>
 
 <!--
-Agentes melhores dependem menos de adivinhar e mais de contexto, limites, evidências e feedback.
-Transição: voltar à analogia do começo.
--->
-
----
-
-<!-- _class: statement -->
-
-> O que ajuda a **pessoa nova** também ajuda o **agente**.
-
-<!--
-Callback da abertura: "A IA é a pessoa nova do time."
-Tudo o que vimos (docs com dono, decisões registradas, observabilidade que conta a história, contexto por domínio, limites claros) ajuda primeiro as pessoas. O agente é só a pessoa nova que chega todo dia.
-Se a arquitetura ajuda pessoas a tomar decisões melhores, ela também ajuda agentes. E vice-versa.
+Fechamento em uma frase: agentes melhores dependem menos de adivinhar e mais de contexto, limites, evidências e feedback.
+- Contexto: docs com dono, decisões registradas (ADRs), página do domínio.
+- Limites: guardrails e fitness functions, fora do prompt.
+- Evidências: observabilidade que conta a história (200 OK não basta).
+- Feedback: cada task devolve conhecimento para a doc, e a próxima começa com mais contexto.
+Tudo isso ajuda primeiro as pessoas. O agente é só a pessoa nova que chega todo dia.
+Transição: série de artigos e perguntas.
 -->
 
 ---
