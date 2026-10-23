@@ -761,33 +761,11 @@ Ainda precisa ser verificada, e o agente reporta o que é confirmado e o que é 
 
 ---
 
-## O que uma Context Skill sabe
+## Uma Context Skill bem delimitada
 
 <div class="cols5">
 <div class="card big">Vocabulário</div>
-<div class="card big">Responsabilidades</div>
 <div class="card big">Contratos</div>
-<div class="card big">Fontes de verdade</div>
-<div class="card big">Limites</div>
-</div>
-
-<!--
-1. Vocabulário: transação, autorização, captura, reembolso.
-2. Responsabilidades: qual serviço faz o quê, quem é dono, quem decide.
-3. Contratos: APIs, eventos e schemas; o que exige versionamento.
-4. Fontes de verdade: onde estão dados atuais, docs, sinais de produção.
-5. Limites: read-only, o que precisa de aprovação, quando parar e pedir ajuda.
-Ex.: numa investigação de reembolso, distinguir transação AUTORIZADA de CAPTURADA antes de qualquer hipótese.
-Os limites precisam estar alinhados com a segurança: a skill guia, mas não é a única proteção.
--->
-
----
-
-## Uma skill bem delimitada
-
-<div class="cols5">
-<div class="card big">Contexto</div>
-<div class="card big">Objetivo</div>
 <div class="card big">Fontes</div>
 <div class="card big">Limites</div>
 <div class="card big">Ownership</div>
@@ -798,21 +776,17 @@ Os limites precisam estar alinhados com a segurança: a skill guia, mas não é 
 <p class="muted">10 skills para uma pergunta simples? <b>Fronteira errada.</b></p>
 
 <!--
-Vago: "Investigar problemas em produção". Sem ponto de partida, sem fontes, sem como ranquear hipóteses.
-Exemplo bom: investigação de latência no checkout (domínio de pagamentos).
-- Contexto: Payment Service, checkout e integração com o provedor
-- Objetivo: identificar causas prováveis com base em evidências
-- Fontes: logs, métricas e traces; catálogo de serviços; deploys recentes; queries read-only; comparação com período anterior
-- Workflow: serviço/endpoint → quando começou → latência/erros/volume → traces e dependências → mudanças recentes → dados sem modificar → registrar fatos, causas e lacunas
-- Limites: sem alterar dados, sem comandos de escrita, nada sensível no output, escalar se a evidência for insuficiente
-- Ownership: quem é dono da skill e revisa quando o contexto muda (ex.: payments-team)
-Capacidades: search_logs, query_metrics, get_trace, list_recent_changes, query_readonly_database. Cada uma com sua política de acesso.
+O que uma Context Skill sabe, com o exemplo de pagamentos:
+1. Vocabulário: transação, autorização, captura, reembolso. Ex.: distinguir transação AUTORIZADA de CAPTURADA antes de qualquer hipótese.
+2. Contratos: APIs, eventos e schemas; o que exige versionamento.
+3. Fontes de verdade: docs, logs, métricas e traces, deploys recentes, queries read-only.
+4. Limites: read-only, sem comandos de escrita, nada sensível no output, o que precisa de aprovação, quando parar e escalar. A skill guia, mas não é a única proteção.
+5. Ownership: qual serviço faz o quê e quem é dono da skill, quem revisa quando o contexto muda (ex.: payments-team). Puxa o próximo slide.
 
-O outro extremo também é ruim. Decompor não é criar centenas de skills minúsculas:
-Uma boa fronteira agrupa o que: MUDA junto, é USADO junto, tem DONO relacionado.
-Teste: se esse contexto muda, quem precisa revisar? Se a resposta envolve times muito diferentes, a fronteira está grande demais.
-Comece grande: Observabilidade, Delivery, Dados, Pagamentos, Pedidos, Segurança. Divida (ex.: incidentes, performance, capacidade) só quando houver necessidade real.
-Fronteiras observáveis: registre qual contexto, quais fontes e quais regras guiaram cada resposta.
+Fronteira: decompor não é criar centenas de skills minúsculas.
+Uma boa fronteira agrupa o que MUDA junto, é USADO junto e tem DONO relacionado.
+Teste: se esse contexto muda, quem precisa revisar? Se envolve times muito diferentes, a fronteira está grande demais.
+Comece grande (Observabilidade, Delivery, Dados, Pagamentos, Pedidos, Segurança) e divida só quando houver necessidade real.
 -->
 
 ---
