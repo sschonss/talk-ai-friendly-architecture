@@ -1357,88 +1357,22 @@ As duas perguntas não estão respondidas na task nem na ADR. As respostas viram
 - Skill de observability: o agente sabe qual dashboard olhar porque o link está na página do domínio. Compara com o baseline e com os critérios de sucesso definidos antes do código.
 - O limite de alerta (2% de falha) foi definido pelo time; o agente acompanha e avisa, a decisão de continuar ou reverter é humana.
 - Fechando o ciclo: a documentação é atualizada, e a próxima task começa com mais contexto.
-Transição: "A feature funcionou. Mas e o agente, trabalhou bem?"
+FIM DA SIMULAÇÃO e do conteúdo principal: do link da task até produção, com a doc atualizada para a próxima task.
+Transição: "Agora um bônus. A feature funcionou. Mas e o agente, trabalhou bem?"
 -->
 
 ---
 
-## Na prática: e a sessão do agente?
+<!-- _class: divider -->
 
-<div class="chat">
-<div class="msg user"><span class="who">Você</span>E essa sessão, como foi?</div>
-<div class="msg agent"><span class="who">Agente</span><div class="skills"><span class="skill">agent-observability</span></div>4 tool calls · 2 aprovações · 0 retrabalho</div>
-</div>
+<div class="kicker">Bônus</div>
 
-<p class="muted small">exemplo ilustrativo</p>
-
+# Como sei que meu agente performou bem?
 
 <!--
-Fechando a simulação: a mesma pergunta que fizemos para a feature, agora para o agente. A feature foi medida; o agente também precisa ser.
-Leitura do dashboard de sessões (OpenTelemetry): contexto encontrado a partir de 1 link, em 4 tool calls; 2 perguntas viraram decisões registradas; 2 aprovações humanas (PR e GMUD); 0 violações de fitness function; 0 retrabalho.
-Os números são ilustrativos. O ponto é o TIPO de sinal: quanto custou achar o contexto, quantas decisões saíram das perguntas, onde houve aprovação humana, se os guardrails pegaram algo, se houve retrabalho.
-Repare que os sinais refletem a arquitetura: achou o contexto rápido porque a task apontava para o domínio; zero violação porque a fronteira estava clara.
-Transição: "Como eu sei que isso funcionou de verdade, e não só pareceu funcionar?"
--->
-
----
-
-## Como sei que funcionou?
-
-<div class="cols">
-<div class="card">
-
-### Atividade
-Tokens · tool calls · duração
-
-</div>
-<div class="card good">
-
-### Resultado
-Menos retrabalho? Melhores evidências?
-
-</div>
-</div>
-
-<p class="muted">Sem sinais, toda avaliação é <b>impressão</b>.</p>
-
-<div class="chips">
-<span>busca longa → contexto</span><span>repetição → skill</span><span>aprovação → permissão</span>
-</div>
-
-
-<!--
-Avaliar só pelo resultado (PR criado? testes passando?) não explica o caminho:
-- Quanto tempo para achar o contexto certo?
-- Quantas investigações repetidas?
-- Quais tools foram usadas?
-- Quando precisou de aprovação?
-- A causa foi o modelo, a doc, a integração ou o fluxo?
-Uma sessão de agente é um fluxo distribuído: modelo, contexto, tools, permissões, sistemas externos, arquivos, testes, decisões humanas.
-
-O que medir: sessões, duração, tempo em tools, tokens e custo, erros e retries, aprovações, testes, resultado.
-Não é gravar tudo, vigiar devs ou tratar tokens como produtividade. É evidência para decisões de engenharia.
-Perguntas:
-- A doc nova reduziu o tempo até a primeira hipótese útil?
-- A skill de investigação reduziu chamadas de tool?
-- Um MCP externo adiciona latência sem melhorar o resultado?
-- A aprovação vem cedo ou tarde demais?
-- Uma mudança de contexto aumentou custo por informação útil ou por ruído?
-
-Armadilha: observar só atividade. Mais mensagens ≠ mais progresso. Mais tokens = contexto melhor OU agente perdido. Mais tool calls = investigação cuidadosa OU falta de docs.
-- Tokens → tarefa concluída com menos retrabalho?
-- Tool calls → melhores evidências?
-- Duração → mais qualidade ou só espera?
-- Aprovações → limites de autonomia adequados?
-- Linhas alteradas → testes e critérios atendidos?
-Senão, a observabilidade vira placar de volume.
-
-O contexto aparece nas métricas:
-- Buscas longas → contexto difícil de navegar
-- Consultas repetidas → falta uma skill
-- Chamadas lentas → integração ruim
-- Aprovação a cada passo → permissões ou fluxo
-Contexto não é só algo que damos ao agente: dá para AVALIÁ-LO pelo comportamento observado.
-A telemetria fecha o ciclo entre contexto, execução e aprendizado.
+Deixar claro que é um BÔNUS: o conteúdo principal terminou no deploy. Aqui é um gostinho, sem aprofundar.
+A feature foi medida. O agente também precisa ser.
+Avaliar só pelo resultado (PR criado, testes passando) não explica o caminho: quanto custou achar o contexto, quantas tool calls, onde precisou de aprovação, se houve retrabalho.
 -->
 
 ---
@@ -1455,47 +1389,42 @@ A telemetria fecha o ciclo entre contexto, execução e aprendizado.
 
 <br>
 
-<p class="muted">Telemetria também é <b>dado sensível</b>.</p>
+<p class="muted">Medir <b>resultado</b>, não só atividade.</p>
 
 <!--
-Padrão aberto, open source, sem plataforma proprietária para começar.
-OpenCode é o exemplo (plugin exportando via OTLP), mas vale para Claude Code, Codex, Cursor ou qualquer ferramenta com exporter, plugin ou hook.
-Use conceitos estáveis no backend: session, model call, tool, approval, error, result.
-Separar quem PRODUZ eventos de quem OBSERVA: troque a ferramenta sem reconstruir a observabilidade.
-
-Telemetria também é dado sensível:
-- sem prompts em métricas
-- sanitizar argumentos
-- paths não viram labels
-- retenção definida antes da coleta
-- cuidado com session_id
-Telemetria carrega regras internas em prompts, tokens em argumentos de tools, dados de clientes em resultados, código em traces, estrutura revelada por paths.
-Aplicação determinística: Collector, gateway de telemetria, políticas de acesso. Credenciais fora da config versionada; menor privilégio nos destinos.
-session_id: ótimo no lab para investigar uma sessão; em produção cria uma série por sessão (cardinalidade cara). Prefira métricas agregadas e traces/logs sanitizados num backend próprio.
-Lab: github.com/sschonss/agent-observability-with-opentelemetry. Collector + Prometheus + Grafana com docker compose; logs e traces desligados no início. Comece pequeno e expanda.
+Bônus, rápido. Padrão aberto, open source, sem plataforma proprietária para começar.
+Vale para OpenCode, Claude Code, Codex, Cursor ou qualquer ferramenta com exporter, plugin ou hook. Troca a ferramenta sem reconstruir a observabilidade.
+O que medir: sessões, duração, tool calls, tokens e custo, aprovações, retrabalho.
+Armadilha: mais tokens ou mais tool calls não é mais progresso. Pode ser contexto melhor OU agente perdido.
+O contexto aparece nas métricas: busca longa → falta contexto; consulta repetida → falta uma skill; aprovação a cada passo → permissão mal definida.
+Cuidado: telemetria também é dado sensível (sem prompts em métricas, sanitizar argumentos, retenção definida).
+Detalhes no artigo, próximo slide.
 -->
 
 ---
 
-## Demo: observabilidade de agentes
+<div class="qr-slide">
+<div>
 
-<div class="cols">
-<figure class="qr-card">
-<img src="assets/qr-demo.svg" alt="QR code da demo no GitHub">
-<figcaption><b>Demo no GitHub</b><span>github.com/sschonss/</span><span>agent-observability-with-opentelemetry</span></figcaption>
-</figure>
-<figure class="qr-card">
+<p class="kicker-dark">Bônus · para se aprofundar</p>
+
+# Observabilidade de agentes
+
+<p class="muted">Artigo + lab com OpenTelemetry</p>
+
+<p class="site">luizschons.com/posts/agent-observability-with-opentelemetry</p>
+
+</div>
+<figure class="qr">
 <img src="assets/qr-artigo.svg" alt="QR code do artigo">
-<figcaption><b>Artigo</b><span>luizschons.com/posts/</span><span>agent-observability-with-opentelemetry/</span></figcaption>
+<figcaption>Escaneie para ler o artigo</figcaption>
 </figure>
 </div>
 
 <!--
-Lab local: OpenTelemetry Collector + Prometheus + Grafana via docker compose, com um dashboard inicial de sessões de agente.
-OpenCode é o exemplo de instrumentação (plugin @devtheops/opencode-plugin-otel); o backend aceita outras ferramentas.
-Passos: docker compose up -d → source examples/opencode-environment.sh → opencode.
-Logs e traces começam desligados porque podem conter prompts, código e argumentos sensíveis.
-Transição: "Então, por onde começar?"
+Deixar alguns segundos para escanearem.
+O artigo tem o lab completo: Collector + Prometheus + Grafana com docker compose (github.com/sschonss/agent-observability-with-opentelemetry).
+Transição: "Fechando o bônus, vamos ao que levar daqui."
 -->
 
 ---
@@ -1504,7 +1433,25 @@ Transição: "Então, por onde começar?"
 
 <div class="kicker">Fechamento</div>
 
-# Por onde começar
+# O que levar daqui
+
+---
+
+## Recapitulando
+
+<div class="cols3">
+<div class="card"><p class="muted small">Ato 1</p><h3>Contexto fora do código</h3></div>
+<div class="card"><p class="muted small">Ato 2</p><h3>Skills e guardrails</h3></div>
+<div class="card"><p class="muted small">Ato 3</p><h3>Do link à produção</h3></div>
+</div>
+
+<!--
+Overview rápido dos três atos:
+- Ato 1: o contexto que o agente precisa não está no código. Está em docs, decisões (ADRs) e observabilidade. 200 OK não significa que o negócio está funcionando.
+- Ato 2: organizar o conhecimento em Context Skills bem delimitadas, com dono, e colocar limites que não dependem do prompt (guardrails e fitness functions).
+- Ato 3: um link na task levou o agente ao domínio, ele perguntou, planejou, abriu o PR, acompanhou o deploy e atualizou a doc.
+Transição: "E o que fazer na segunda-feira?"
+-->
 
 ---
 
