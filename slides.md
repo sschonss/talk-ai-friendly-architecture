@@ -1437,24 +1437,6 @@ Transição: "Fechando o bônus, vamos ao que levar daqui."
 
 ---
 
-## Recapitulando
-
-<div class="cols3">
-<div class="card"><p class="muted small">Ato 1</p><h3>Contexto fora do código</h3></div>
-<div class="card"><p class="muted small">Ato 2</p><h3>Skills e guardrails</h3></div>
-<div class="card"><p class="muted small">Ato 3</p><h3>Do link à produção</h3></div>
-</div>
-
-<!--
-Overview rápido dos três atos:
-- Ato 1: o contexto que o agente precisa não está no código. Está em docs, decisões (ADRs) e observabilidade. 200 OK não significa que o negócio está funcionando.
-- Ato 2: organizar o conhecimento em Context Skills bem delimitadas, com dono, e colocar limites que não dependem do prompt (guardrails e fitness functions).
-- Ato 3: um link na task levou o agente ao domínio, ele perguntou, planejou, abriu o PR, acompanhou o deploy e atualizou a doc.
-Transição: "E o que fazer na segunda-feira?"
--->
-
----
-
 ## Agentes melhores precisam de
 
 <div class="cols4">
