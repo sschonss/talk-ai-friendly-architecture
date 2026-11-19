@@ -28,7 +28,11 @@ jobs:
         run: |
           npx --yes @marp-team/marp-cli@4.2.3 --no-stdin slides.md -o _site/index.html
           npx --yes @marp-team/marp-cli@4.2.3 --no-stdin slides.md --pdf --allow-local-files -o _site/ai-friendly-architecture.pdf
+          mkdir -p _site/en
+          npx --yes @marp-team/marp-cli@4.2.3 --no-stdin slides.en.md -o _site/en/index.html
+          npx --yes @marp-team/marp-cli@4.2.3 --no-stdin slides.en.md --pdf --allow-local-files -o _site/en/ai-friendly-architecture.pdf
           cp -R assets _site/
+          cp -R assets _site/en/
 
       - uses: actions/upload-pages-artifact@v3
         with:

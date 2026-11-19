@@ -1,12 +1,15 @@
 # AI-Friendly Architecture — slides
 
-**Slides online:** https://sschonss.github.io/talk-ai-friendly-architecture/  
-**PDF:** https://sschonss.github.io/talk-ai-friendly-architecture/ai-friendly-architecture.pdf
+**Slides (PT):** https://sschonss.github.io/talk-ai-friendly-architecture/  
+**Slides (EN):** https://sschonss.github.io/talk-ai-friendly-architecture/en/  
+**PDF (PT):** https://sschonss.github.io/talk-ai-friendly-architecture/ai-friendly-architecture.pdf  
+**PDF (EN):** https://sschonss.github.io/talk-ai-friendly-architecture/en/ai-friendly-architecture.pdf
 
 Deck em [Marp](https://marp.app) baseado na série
 [AI-Friendly Architecture](https://luizschons.com/series/ai-friendly-architecture/).
 
-- `slides.md` — o deck (62 slides, em 3 atos). Cada slide tem pouco texto; o roteiro detalhado está nas **notas do apresentador** (`<!-- ... -->`).
+- `slides.md` — o deck em português (59 slides, em 3 atos). Cada slide tem pouco texto; o roteiro detalhado está nas **notas do apresentador** (`<!-- ... -->`).
+- `slides.en.md` — the English translation (same 59 slides).
 - `themes/aifa.css` — tema claro customizado.
 - `assets/` — foto e QR codes.
 
